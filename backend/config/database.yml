@@ -15,9 +15,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: postgres
-  password: password
+
+  host: <%= ENV.fetch("DATABASE_HOST") %>
+  username: <%= ENV.fetch("DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+  
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   # max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -92,8 +94,8 @@ production:
   primary: &primary_production
     <<: *default
     database: new_kicks_production
-    username: new_kicks
-    password: <%= ENV["NEW_KICKS_DATABASE_PASSWORD"] %>
+    username: <%= ENV["DATABASE_USERNAME"] %>
+    password: <%= ENV["DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: new_kicks_production_cache
