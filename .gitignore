@@ -4,6 +4,8 @@
 # belong in git's global ignore instead:
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
+# - - - - Backend (Rails) ignores - - - - 
+
 # Ignore bundler config.
 /backend/.bundle
 
@@ -12,6 +14,7 @@
 .env*
 
 # Ignore all logfiles and tempfiles.
+backend/.DS_Store
 /backend/log/*
 /backend/tmp/*
 !/backend/log/.keep
@@ -30,7 +33,24 @@
 !/backend/tmp/storage/.keep
 
 /backend/public/assets
+backend/public/uploads
+
+backend/.byebug_history
 
 # Ignore key files for decrypting credentials and more.
 /backend/config/*.key
+backend/config/credentials/*.key
 
+# - - - - Frontend (React) ignores - - - - 
+frontend/node_modules
+frontend/dist
+frontend/.env
+frontend/.env.local
+
+# Docker
+docker-compose.override.yml
+
+# General
+.DS_Store
+*.swp
+*.swo
