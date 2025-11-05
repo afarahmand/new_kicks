@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+How to run locally:
+
+1) Populate .env file using .env.example as a reference for the keys that should be included
+2) Run `docker compose up --build`
