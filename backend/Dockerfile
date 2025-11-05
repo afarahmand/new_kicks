@@ -6,7 +6,9 @@ RUN apk add --no-cache \
   postgresql-client \
   build-base \
   tzdata \
-  nodejs
+  nodejs \
+  yaml-dev \
+  gcompat
 
 WORKDIR /app
 
