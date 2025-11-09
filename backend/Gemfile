@@ -55,6 +55,7 @@ group :development, :test do
   gem "capybara"
   gem "capybara-screenshot"
   gem "factory_bot_rails"
+  gem "pry-byebug"
   gem "pry-rails"
   gem "selenium-webdriver"
   gem "shoulda-matchers"
