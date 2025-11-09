@@ -17,6 +17,8 @@ class Project < ApplicationRecord
     primary_key: :id,
     foreign_key: :user_id,
     class_name: 'User'
+  
+  belongs_to :user
 
   has_many :rewards, dependent: :destroy
 
@@ -63,7 +65,11 @@ class Project < ApplicationRecord
 
     result = {}
     Project.order("id ASC").pluck(:id, :funding_amount).each_with_index do |project, idx|
-      result[project[0]] = (100*projects_amount_funded[idx]["amount_funded"].to_f/project[1]).round(2)
+      begin
+        result[project[0]] = (100*projects_amount_funded[idx]["amount_funded"].to_f/project[1]).round(2)
+      rescue IndexError => e
+        result[project[0]] = 0.00
+      end
     end
     result
   end

@@ -82,6 +82,7 @@ RSpec.describe Project, type: :model do
 
   describe "Associations" do
     it { should belong_to(:creator) }
+    it { should belong_to(:user) }
     it { should have_many(:rewards).dependent(:destroy) }
     it { should have_many(:backings) }
     it { should have_many(:backers) }
@@ -166,6 +167,24 @@ RSpec.describe Project, type: :model do
         project1.id => (100*total_amount_raised[project1.id].to_f/project1.funding_amount).round(2),
         project2.id => (100*total_amount_raised[project2.id].to_f/project2.funding_amount).round(2),
         project3.id => (100*total_amount_raised[project3.id].to_f/project3.funding_amount).round(2)
+      }
+
+      expect(Project.percentage_funded[project1.id]).to eq(expected[project1.id])
+      expect(Project.percentage_funded[project2.id]).to eq(expected[project2.id])
+      expect(Project.percentage_funded[project3.id]).to eq(expected[project3.id])
+    end
+
+    it "returns 0 if a project has not been funded" do
+      creator = create(:user)
+
+      project1 = create(:project, user_id: creator.id, funding_amount: 10)
+      project2 = create(:project, user_id: creator.id, funding_amount: 100)
+      project3 = create(:project, user_id: creator.id, funding_amount: 1000)
+
+      expected = {
+        project1.id => 0.0,
+        project2.id => 0.0,
+        project3.id => 0.0
       }
 
       expect(Project.percentage_funded[project1.id]).to eq(expected[project1.id])
