@@ -20,6 +20,7 @@ class Backing < ApplicationRecord
     class_name: 'User'
 
   belongs_to :reward
+  belongs_to :user
 
   has_one :project,
     through: :reward,

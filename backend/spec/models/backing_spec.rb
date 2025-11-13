@@ -22,6 +22,7 @@ RSpec.describe Backing, type: :model do
   describe "Associations" do
     it { should belong_to(:backer) }
     it { should belong_to(:reward) }
+    it { should belong_to(:user) }
     it { should have_one(:project) }
   end
 end
