@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :user do
     email
     name {"Jory Carver"}
-    password {"password"}
     password_digest {BCrypt::Password.create("password")}
     image_url {"https://i.imgur.com/rfxjQeS.png"}
   end
