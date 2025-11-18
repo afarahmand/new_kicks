@@ -33,6 +33,8 @@ services:
   
   frontend:
     build: ./frontend
+    environment:
+      - KICKS_API_BASE_URL=${KICKS_API_BASE_URL}
     volumes:
       - ./frontend:/app
       - /app/node_modules
