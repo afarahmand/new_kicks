@@ -1,10 +1,54 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import Root from './components/root';
+import configureStore from './store/store';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import './stylesheets/reset.css';
+import './stylesheets/application.css';
+import './stylesheets/google_font_modak.css';
+import './stylesheets/discover.css';
+import './stylesheets/home_page.css';
+import './stylesheets/navbar.css';
+import './stylesheets/project_form.css';
+import './stylesheets/project_index.css';
+import './stylesheets/project_show.css';
+import './stylesheets/reward_form.css';
+import './stylesheets/search.css';
+import './stylesheets/session_form.css';
+import './stylesheets/stat_bar.css';
+import './stylesheets/tab_bar.css';
+import './stylesheets/user_show.css';
+
+import './stylesheets/font_awesome_all.js'
+
+document.addEventListener("DOMContentLoaded", () => {
+  const root = createRoot(document.getElementById('root'));
+  let store;
+  let preloadedState = {
+    session: {},
+    entities: {
+      categories: {
+        1: "Art",
+        2: "Fashion",
+        3: "Film",
+        4: "Food",
+        5: "Games",
+        6: "Technology"
+      }
+    }
+  };
+
+  if (window.currentUser) {
+    preloadedState.session.currentUser = window.currentUser;
+    store = configureStore(preloadedState);
+    delete window.currentUser;
+  } else {
+    store = configureStore(preloadedState);
+  }
+
+  root.render(
+    <Provider store={store}>
+      <Root />
+    </Provider>
+  )
+});

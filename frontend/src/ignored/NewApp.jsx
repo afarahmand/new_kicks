@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function App() {
+function NewApp() {
   const [message, setMessage] = useState('Loading...')
 
   useEffect(() => {
@@ -23,4 +23,4 @@ function App() {
   )
 }
 
-export default App
+export default NewApp
