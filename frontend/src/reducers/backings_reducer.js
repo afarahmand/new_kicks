@@ -1,4 +1,4 @@
-import { merge } from 'deepmerge';
+import merge from 'deepmerge';
 
 import { RECEIVE_BACKING } from '../actions/backing_actions';
 import { RECEIVE_PROJECT } from '../actions/project_actions';

@@ -1,4 +1,4 @@
-import { merge } from 'deepmerge';
+import merge from 'deepmerge';
 import {
   RECEIVE_REWARD,
   RECEIVE_REWARD_ERRORS,

@@ -1,4 +1,4 @@
-import { merge } from 'deepmerge';
+import merge from 'deepmerge';
 
 import {
   RECEIVE_CURRENT_USER,
