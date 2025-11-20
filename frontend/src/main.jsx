@@ -1,3 +1,4 @@
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import Root from './components/root';
@@ -47,8 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   root.render(
-    <Provider store={store}>
-      <Root />
-    </Provider>
+    <StrictMode>
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    </StrictMode>
   )
 });
