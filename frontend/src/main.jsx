@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import Root from './components/root';
-import configureStore from './store/store';
+import createStore from './store/store';
 
 import './stylesheets/reset.css';
 import './stylesheets/application.css';
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     store = configureStore(preloadedState);
     delete window.currentUser;
   } else {
-    store = configureStore(preloadedState);
+    store = createStore(preloadedState);
   }
 
   root.render(
