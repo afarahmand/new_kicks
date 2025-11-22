@@ -32,9 +32,3 @@ const DiscoverIndexItem = ({ project }) => {
 };
 
 export default DiscoverIndexItem;
-
-// <div>{project.funding_end_date}days to go</div>
-// <span className="project-creator">{project.creator}</span>
-// <div>progress bar</div>
-// <div>money pledged</div>
-// <div>percent funded</div>
