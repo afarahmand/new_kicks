@@ -3,7 +3,7 @@ import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import DiscoverPage from './discover/discover_page';
 import HomePageContainer from './home/home_page_container';
-import NavbarContainer from './navbar/navbar_container';
+import NavBar from './navbar/navbar';
 
 import ProjectFormContainer from './project/project_form_container';
 import ProjectShowPageContainer from './project/project_show_page_container';
@@ -14,9 +14,7 @@ import UserShowPageContainer from './user/user_show_page_container';
 
 const App = () => (
   <div>
-    <header>
-      <NavbarContainer/>
-    </header>
+    <NavBar />
 
     <Routes>
       <Route path="/signin" element={ <AuthRoute><SessionForm /></AuthRoute> } />
