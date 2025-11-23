@@ -9,7 +9,7 @@ import ProjectFormContainer from './project/project_form_container';
 import ProjectShowPageContainer from './project/project_show_page_container';
 import RewardFormContainer from './reward/form/reward_form_container';
 import SearchPage from './search/search_page';
-import SessionFormContainer from './session/session_form_container';
+import SessionForm from './session/session_form';
 import UserShowPageContainer from './user/user_show_page_container';
 
 const App = () => (
@@ -19,8 +19,8 @@ const App = () => (
     </header>
 
     <Routes>
-      <Route path="/signin" element={ <AuthRoute><SessionFormContainer /></AuthRoute> } />
-      <Route path="/signup" element={ <AuthRoute><SessionFormContainer /></AuthRoute> } />
+      <Route path="/signin" element={ <AuthRoute><SessionForm /></AuthRoute> } />
+      <Route path="/signup" element={ <AuthRoute><SessionForm /></AuthRoute> } />
       <Route path="/discover" element={<DiscoverPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/projects/new" element={ <ProtectedRoute><ProjectFormContainer /></ProtectedRoute> } />
