@@ -1,7 +1,6 @@
-import React from 'react';
 import { formatAsMonthDDYYYY } from '../../utils/date_util';
 
-const StatBar = props => {
+const StatBar = () => {
   return (
     <section className="stat-bar content-wide">
       <ul className="content-narrow">

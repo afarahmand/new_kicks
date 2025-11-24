@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import DiscoverPage from './discover/discover_page';
-import HomePageContainer from './home/home_page_container';
+import HomePage from './home/home_page';
 import NavBar from './navbar/navbar';
 
 import ProjectFormContainer from './project/project_form_container';
@@ -24,15 +24,9 @@ const App = () => (
       <Route path="/projects/new" element={ <ProtectedRoute><ProjectFormContainer /></ProtectedRoute> } />
       <Route path="/projects/:projectId/edit" element={ <ProtectedRoute><ProjectFormContainer /></ProtectedRoute> } />
       <Route path="/projects/:projectId/rewards/edit" element={ <ProtectedRoute><RewardFormContainer /></ProtectedRoute> } />
-      <Route
-        path="/projects/:projectId"
-        element={<ProjectShowPageContainer />}
-      />
-      <Route
-        path="/users/:userId"
-        element={ <UserShowPageContainer />}
-      />
-      <Route path="/" element={ <HomePageContainer /> } />
+      <Route path="/projects/:projectId" element={<ProjectShowPageContainer />} />
+      <Route path="/users/:userId" element={ <UserShowPageContainer />} />
+      <Route path="/" element={ <HomePage /> } />
     </Routes>
   </div>
 );
