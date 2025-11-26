@@ -29,7 +29,7 @@ export const fetchProjects = () => {
 };
 
 export const fetchProject = id => {
-  return fetchWrapper(`api/projects/${id}`, {
+  return fetchWrapper(`/api/projects/${id}`, {
     method: 'GET',
   });
 };

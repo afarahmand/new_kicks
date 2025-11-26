@@ -1,4 +1,3 @@
-import React from 'react';
 import RewardIndexDisplayItem from './reward_index_display_item';
 
 const RewardIndexDisplay = ({ rewards, createBacking }) => {

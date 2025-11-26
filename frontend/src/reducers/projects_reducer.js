@@ -39,6 +39,7 @@ const projectsReducer = (oldState = {}, action) => {
       return newState;
 
     case RECEIVE_PROJECT_ERRORS:
+      return oldState;
     default:
       return oldState;
   }

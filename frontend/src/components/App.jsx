@@ -6,7 +6,7 @@ import HomePage from './home/home_page';
 import NavBar from './navbar/navbar';
 
 import ProjectFormContainer from './project/project_form_container';
-import ProjectShowPageContainer from './project/project_show_page_container';
+import ProjectShowPage from './project/project_show_page';
 import RewardFormContainer from './reward/form/reward_form_container';
 import SearchPage from './search/search_page';
 import SessionForm from './session/session_form';
@@ -24,7 +24,7 @@ const App = () => (
       <Route path="/projects/new" element={ <ProtectedRoute><ProjectFormContainer /></ProtectedRoute> } />
       <Route path="/projects/:projectId/edit" element={ <ProtectedRoute><ProjectFormContainer /></ProtectedRoute> } />
       <Route path="/projects/:projectId/rewards/edit" element={ <ProtectedRoute><RewardFormContainer /></ProtectedRoute> } />
-      <Route path="/projects/:projectId" element={<ProjectShowPageContainer />} />
+      <Route path="/projects/:projectId" element={<ProjectShowPage />} />
       <Route path="/users/:userId" element={ <UserShowPageContainer />} />
       <Route path="/" element={ <HomePage /> } />
     </Routes>
