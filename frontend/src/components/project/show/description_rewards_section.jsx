@@ -20,13 +20,14 @@ const DescriptionRewardsSection = ({ project }) => {
 
     const alreadyBacked = useSelector((state) => {
         if (currentUser) {
-            const projectRewardIds = projectRewards.map((reward) => reward.id);
-            Object.keys(state.entities.backings).forEach(backingId => {
-                if ((projectRewardIds.includes(state.entities.backings[backingId].reward_id)) &&
-                    (state.entities.backings[backingId].user_id === currentUser.id)) {
+            const projectRewardIds = projectRewards.map(reward => reward.id);
+
+            for (const backingId in state.entities.backings) {
+                let backing = state.entities.backings[backingId];
+                if ((projectRewardIds.includes(backing.reward_id)) && (backing.user_id === currentUser.id)) {
                     return true;
                 }
-            });
+            }
 
             return false;
         } else {
