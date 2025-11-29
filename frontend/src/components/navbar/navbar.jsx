@@ -5,11 +5,18 @@ import { signout } from '../../actions/session_actions';
 
 const NavBar = () => {
     const dispatch = useDispatch();
-    const currentUser = useSelector((state) => state.session.currentUser);
+    const currentUser = useSelector(state => state.session.currentUser);
+    const loading = useSelector(state => state.session.loading);
 
     let lastLink;
 
-    if (currentUser) {
+    if (loading) {
+        lastLink = (
+            <button>
+                Sign
+            </button>
+        );
+    } else if (currentUser) {
         lastLink = (
             <button onClick={() => dispatch(signout())}>
                 Sign out

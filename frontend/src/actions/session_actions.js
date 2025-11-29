@@ -2,6 +2,7 @@ import * as SessionApiUtil from '../utils/session_api_util';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
+export const LOADING = "LOADING";
 
 const receiveCurrentUser = user => ({
   type: RECEIVE_CURRENT_USER,
@@ -13,8 +14,14 @@ export const receiveSessionErrors = errors => ({
   errors
 });
 
-export const getCurrentUser = () => dispatch => (
-  SessionApiUtil.getCurrentUser().then(
+const loading = () => ({
+  type: LOADING
+});
+
+export const getCurrentUser = () => dispatch => {
+  dispatch(loading());
+
+  return SessionApiUtil.getCurrentUser().then(
     currentUser => {
       if (Object.keys(currentUser).length > 2) {
         return dispatch(receiveCurrentUser(currentUser));
@@ -24,7 +31,7 @@ export const getCurrentUser = () => dispatch => (
     },
     err => dispatch(receiveSessionErrors(err.responseJSON))
   )
-)
+}
 
 export const signin = user => dispatch => (
   SessionApiUtil.signin(user).then(
