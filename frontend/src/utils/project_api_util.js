@@ -23,13 +23,13 @@ export const fetchSearchResults = searchQuery => {
 };
 
 export const fetchProjects = () => {
-  return fetchWrapper('/api/projects', {
+  return fetchWrapper('api/projects', {
     method: 'GET',
   });
 };
 
 export const fetchProject = id => {
-  return fetchWrapper(`/api/projects/${id}`, {
+  return fetchWrapper(`api/projects/${id}`, {
     method: 'GET',
   });
 };

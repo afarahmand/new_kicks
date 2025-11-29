@@ -1,5 +1,11 @@
 import { fetchWrapper } from "./base_api_util";
 
+export const getCurrentUser = () => {
+  return fetchWrapper('api/session', {
+    method: 'GET',
+  });
+}
+
 export const signin = user => {
   return fetchWrapper('/api/session', {
     method: 'POST',
@@ -8,7 +14,7 @@ export const signin = user => {
 };
 
 export const signout = () => {
-  return fetchWrapper('/api/session', {
+  return fetchWrapper('api/session', {
     method: 'DELETE',
   });
 };

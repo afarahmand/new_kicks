@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     resources :project_discovery, only: [:index]
     resources :project_searches, only: [:index]
-    resource :session, only: [:create, :destroy]
+    resource :session, only: [:create, :destroy, :show]
     resources :users, only: [:create, :show]
   end
 

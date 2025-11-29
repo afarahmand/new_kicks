@@ -13,6 +13,19 @@ export const receiveSessionErrors = errors => ({
   errors
 });
 
+export const getCurrentUser = () => dispatch => (
+  SessionApiUtil.getCurrentUser().then(
+    currentUser => {
+      if (Object.keys(currentUser).length > 2) {
+        return dispatch(receiveCurrentUser(currentUser));
+      } else {
+        return dispatch(receiveCurrentUser(null));
+      }
+    },
+    err => dispatch(receiveSessionErrors(err.responseJSON))
+  )
+)
+
 export const signin = user => dispatch => (
   SessionApiUtil.signin(user).then(
     currentUser => dispatch(receiveCurrentUser(currentUser)),

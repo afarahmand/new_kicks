@@ -136,4 +136,51 @@ RSpec.describe "Api::Sessions", type: :request do
       end
     end
   end
+
+  describe "GET /api/session" do
+    context "with signed in user" do
+      let(:valid_params) do
+        {
+          user: {
+            email: user.email,
+            password: "password"
+          }
+        }
+      end
+
+      # Signs in user
+      before do
+        post "/api/session", params: valid_params
+      end
+
+      it "returns a successful response" do
+        get "/api/session", params: {}
+        expect(response).to have_http_status(:success)
+      end
+
+      it "renders the show template" do
+        get "/api/session", params: {}
+
+        expected_result = {
+          "id" => user.id,
+          "email" => user.email,
+          "name" => user.name
+        }
+        
+        expect(JSON.parse(response.body)).to eq(expected_result)
+      end
+    end
+
+    context "without signed in user" do
+      it "returns a 200 status" do
+        get "/api/session", params: {}
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns an error message" do
+        get "/api/session", params: {}
+        expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+  end
 end

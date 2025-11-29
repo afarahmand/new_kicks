@@ -21,4 +21,13 @@ class Api::SessionsController < Api::BaseController
       render json: ['User is not signed in'], status: 404
     end
   end
+
+  def show
+    if current_user
+      @user = current_user
+      render "api/users/show"
+    else
+      render json: {}
+    end
+  end
 end
