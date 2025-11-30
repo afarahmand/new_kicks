@@ -2,38 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createBacking } from '../../../actions/backing_actions';
 import RewardIndexDisplay from '../../reward/reward_index_display';
 
+import { selectAlreadyBacked } from '../../../selectors/already_backed';
+import { selectProjectRewards } from '../../../selectors/project_rewards';
+
 const DescriptionRewardsSection = ({ project }) => {
     const currentUser = useSelector((state) => (state.session.currentUser));
-    const projectRewards = useSelector((state) => {
-        let tempProjectRewards = [];
-        let reward;
-
-        Object.keys(state.entities.rewards).forEach((rewardId) => {
-            reward = state.entities.rewards[rewardId];
-            if (reward.project_id === project.id) {
-                tempProjectRewards.push(reward);
-            }
-        })
-
-        return tempProjectRewards;
-    });
-
-    const alreadyBacked = useSelector((state) => {
-        if (currentUser) {
-            const projectRewardIds = projectRewards.map(reward => reward.id);
-
-            for (const backingId in state.entities.backings) {
-                let backing = state.entities.backings[backingId];
-                if ((projectRewardIds.includes(backing.reward_id)) && (backing.user_id === currentUser.id)) {
-                    return true;
-                }
-            }
-
-            return false;
-        } else {
-            return false;
-        }
-    });
+    const projectRewards = useSelector(selectProjectRewards(project));
+    const projectRewardIds = projectRewards.map(reward => reward.id);
+    const alreadyBacked = useSelector(selectAlreadyBacked(projectRewardIds, currentUser));
 
     const dispatch = useDispatch();
     const dispatchCreateBacking = (backing) => dispatch(createBacking(backing));
