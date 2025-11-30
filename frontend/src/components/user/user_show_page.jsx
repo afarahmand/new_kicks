@@ -1,41 +1,44 @@
-import React from 'react';
-
-import { withRouter } from '../withRouter';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import DiscoverIndex from '../discover/discover_index';
 
-class UserShowPage extends React.Component {
-  componentDidMount() {
-    this.props.fetchUser(this.props.match.params.userId);
-  }
+import { selectBackedProjects } from '../../selectors/backed_projects';
+import { selectCreatedProjects } from '../../selectors/created_projects';
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.userId !==
-      nextProps.match.params.userId)
-    {
-      this.props.fetchUser(nextProps.match.params.userId);
-    }
-  }
+import { fetchUser } from '../../actions/user_actions';
 
-  render() {
-    if (!this.props.creator || !this.props.backedProjects) {
-      return null;
+const UserShowPage = () => {
+    const { userId } = useParams();
+    const user = useSelector(state => state.entities.users[userId]);
+    const backedProjects = useSelector(selectBackedProjects(user));
+    const createdProjects = useSelector(selectCreatedProjects(user));
+
+    const dispatch = useDispatch();
+    const dispatchFetchUser = (id) => dispatch(fetchUser(id));
+
+    useEffect(() => {
+        dispatchFetchUser(userId);
+    }, [userId]);
+
+    if (user === undefined) {
+        return null;
     }
 
     return (
-      <section id="user-show" className="content-narrow discover-results">
-        <section>
-          <h2>{this.props.creator.name}s created projects</h2>
-          <DiscoverIndex projects={this.props.createdProjects}/>
-        </section>
+        <section id="user-show" className="content-narrow discover-results">
+            <section>
+                <h2>{user.name}s created projects</h2>
+                <DiscoverIndex projects={createdProjects}/>
+            </section>
 
-        <section>
-          <h2>{this.props.creator.name}s backed projects</h2>
-          <DiscoverIndex projects={this.props.backedProjects}/>
+            <section>
+                <h2>{user.name}s backed projects</h2>
+                <DiscoverIndex projects={backedProjects}/>
+            </section>
         </section>
-      </section>
-    );
-  }
+    )
 }
 
-export default withRouter(UserShowPage);
+export default UserShowPage;
