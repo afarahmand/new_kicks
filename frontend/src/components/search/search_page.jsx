@@ -1,72 +1,55 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import SearchIndex from './search_index';
 import { fetchSearchResults } from '../../utils/project_api_util';
 
-class SearchPage extends React.Component {
-  constructor(props) {
-    super(props);
+const SearchPage = () => {
+    const [query, setQuery] = useState("");
+    const [results, setResults] = useState([]);
 
-    this.state = {
-      initialSearchPerformed: false,
-      searchQuery: "",
-      searchResults: []
-    };
-  }
+    useEffect(() => {
+        const searchInputTextBox = document.getElementById('search-input');
+        if (query === "") {
+            setResults([]);
+        } else {
+            fetchSearchResults(query).then(projects => {
+                setResults(projects);
+            });
+        }
+        searchInputTextBox.focus();
+    }, [query]);
 
-  update(field) {
-    return e => this.setState({
-      [field]: e.currentTarget.value
-    });
-  }
-
-  componentDidMount() {
-    const searchInputTextBox = document.getElementById('search-input');
-    searchInputTextBox.addEventListener('keyup', () => {
-      fetchSearchResults(this.state.searchQuery).then(
-        projects => this.setState({
-          initialSearchPerformed: true,
-          searchResults: projects
-        })
-      );
-    });
-    searchInputTextBox.focus();
-  }
-
-  renderNoResults() {
-    if ((this.state.initialSearchPerformed) &&
-    (this.state.searchResults.length === 0)) {
-      return (
-        <div className="noresults">
-          <span className="top-noresults-text">
-            Oops! We couldn't find any results.
-          </span>
-          <span className="bottom-noresults-text">
-            Why not change some things around or broaden your search?
-          </span>
-        </div>
-      );
+    function renderNoResults() {
+        if (query.length > 0 && results.length === 0) {
+            return (
+                <div className="noresults">
+                    <span className="top-noresults-text">
+                        Oops! We couldn't find any results.
+                    </span>
+                    <span className="bottom-noresults-text">
+                        Why not change some things around or broaden your search?
+                    </span>
+                </div>
+            );
+        }
     }
-  }
 
-  render() {
     return (
       <section className="search-page">
         <div className="search-form">
           <input
             id="search-input"
             type="text"
-            value={this.state.searchQuery}
-            onChange={this.update('searchQuery')}
+            value={query}
+            onChange={e => setQuery(e.currentTarget.value)}
             placeholder="Search"
           />
         </div>
         <div className="results content-narrow">
-          {this.renderNoResults()}
-          <SearchIndex projects={this.state.searchResults}/>
+          {renderNoResults()}
+          <SearchIndex projects={results}/>
         </div>
       </section>
     );
-  }
 }
 
 export default SearchPage;
