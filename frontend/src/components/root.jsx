@@ -12,7 +12,7 @@ const Root = () => {
 
   useEffect(() => {
       dispatch(getCurrentUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <HashRouter>

@@ -20,7 +20,7 @@ const UserShowPage = () => {
 
     useEffect(() => {
         dispatchFetchUser(userId);
-    }, [userId]);
+    }, [dispatch, userId]);
 
     if (user === undefined) {
         return null;

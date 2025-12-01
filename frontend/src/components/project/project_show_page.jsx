@@ -18,7 +18,7 @@ const ProjectShowPage = () => {
         dispatchFetchProject(projectId);
         
         return () => {};
-    }, [projectId]);
+    }, [dispatch, projectId]);
 
     if (project === undefined) {
         return null;
