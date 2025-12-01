@@ -7,7 +7,7 @@ import { selectProjectRewards } from '../../../selectors/project_rewards';
 
 const DescriptionRewardsSection = ({ project }) => {
     const currentUser = useSelector((state) => (state.session.currentUser));
-    const projectRewards = useSelector(selectProjectRewards(project));
+    const projectRewards = useSelector(selectProjectRewards(project.id));
     const projectRewardIds = projectRewards.map(reward => reward.id);
     const alreadyBacked = useSelector(selectAlreadyBacked(projectRewardIds, currentUser));
 

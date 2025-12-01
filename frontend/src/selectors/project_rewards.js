@@ -1,15 +1,15 @@
-export const selectProjectRewards = (project) => (
+export const selectProjectRewards = (projectId) => (
     (state) => {
-        let tempProjectRewards = [];
+        let projectRewards = [];
         let reward;
 
         for (const rewardId in state.entities.rewards) {
             reward = state.entities.rewards[rewardId];
-            if (reward.project_id === project.id) {
-                tempProjectRewards.push(reward);
+            if (reward.project_id === projectId) {
+                projectRewards.push(reward);
             }
         }
 
-        return tempProjectRewards;
+        return projectRewards;
     }
 )
