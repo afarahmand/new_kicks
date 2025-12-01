@@ -1,5 +1,6 @@
-export const selectBackedProjects = (user) => (
+export const selectBackedProjects = (userId) => (
     state => {
+        const user = state.entities.users[userId];
         let backing, reward;
         let backedProjects = [];
         

@@ -1,5 +1,6 @@
-export const selectCreatedProjects = (user) => (
+export const selectCreatedProjects = (userId) => (
     state => {
+        const user = state.entities.users[userId];
         let project;
         let createdProjects = [];
 
