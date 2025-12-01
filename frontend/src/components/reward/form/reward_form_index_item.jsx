@@ -42,7 +42,17 @@ class RewardFormIndexItem extends React.Component {
       stringifiedState.amount = Number(stringifiedState.amount);
     }
 
-    return !_.isEqual(this.props.reward, stringifiedState);
+    return !this.isEqual(this.props.reward, stringifiedState);
+  }
+
+  isEqual(reward1, reward2) {
+    for (const key in Object.keys(reward1)) {
+      if (reward1[key] !== reward2[key]) {
+        return false;
+      }
+    }
+
+    return Object.keys(reward1).length === Object.keys(reward2).length;
   }
 
   update(field) {
