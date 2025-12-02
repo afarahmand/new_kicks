@@ -35,7 +35,7 @@ const RewardFormIndexItem = ({ propReward, createReward, deleteReward, removeRew
             stringifiedState.amount = Number(stringifiedState.amount);
         }
 
-        return !isEqual(reward, stringifiedState);
+        return !isEqual(propReward, stringifiedState);
     }
     
     function isEqual(reward1, reward2) {
