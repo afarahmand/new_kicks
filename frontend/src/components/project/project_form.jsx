@@ -1,286 +1,294 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { withRouter } from '../withRouter';
+import { formatAsYYYYMMDD } from '../../utils/date_util';
 
-class ProjectForm extends React.Component {
-  constructor(props) {
-    super(props);
+import {
+  fetchProject,
+  createProject,
+  updateProject
+} from '../../actions/project_actions';
 
-    this.state = this.props.project;
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+const ProjectForm = () => {
+    const location = useLocation();
+    const params = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  componentDidMount() {
-    if (this.props.match.params.projectId) {
-      this.props.fetchProject(this.props.match.params.projectId);
-    }
-  }
+    const { projectId } = params;
+    const pathname = location.pathname;
+    const formType = pathname === '/projects/new' ? 'new' : 'update';
 
-  componentWillReceiveProps(newProps) {
-    this.setState(newProps.project);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    let project = Object.assign({}, this.state);
-    this.props.processForm(project).then(
-      project1 => this.props.history.push(`/projects/${project1.project.id}`)
+    const categories = useSelector(state => state.entities.categories);
+    const currentUser = useSelector(state => state.session.currentUser);
+    const errors = useSelector(state => state.errors.projects);
+    const projectFromStore = useSelector(state => 
+        projectId ? state.entities.projects[projectId] : undefined
     );
-  }
 
-  renderEndDateInput() {
-    if(this.props.formType === 'update') {
-      return (
-        <div className="project-form-input-section">
-          <input
-            type="date"
-            value={this.state.funding_end_date.slice(0, 10)}
-            className="project-input"
-            disabled
-          />
-          <p>
-            Projects with shorter durations have higher success
-            rates. You won’t be able to adjust your duration
-            after you launch.
-          </p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="project-form-input-section">
-          <input
-            type="date"
-            value={this.state.funding_end_date}
-            onChange={this.update('funding_end_date')}
-            className="project-input"
-          />
-          <p>
-            Projects with shorter durations have higher success
-            rates. You won’t be able to adjust your duration
-            after you launch.
-          </p>
-        </div>
-      );
-    }
-  }
-
-  renderErrors() {
-    return (
-      <div className="error-display">
-        <ul>
-          {this.props.errors.map((error, i) => (
-            <li key={`error-${i}`}> {error} </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  renderLabelSection(text) {
-    return (
-      <div className="project-form-label-section">
-        <h4 className="project-field-label">
-          {text}
-        </h4>
-      </div>
-    );
-  }
-
-  renderPageTitle() {
-    if(this.props.formType === 'new') {
-      return "Let's get started";
-    } else {
-      return "Edit project";
-    }
-  }
-
-  update(field) {
-    return e => this.setState({
-      [field]: e.currentTarget.value
+    const [project, setProject] = useState({
+        title: "",
+        image_url: "https://i.imgur.com/wB6sCUA.jpg",
+        short_blurb: "",
+        description: "",
+        category: "Art",
+        funding_amount: 0,
+        funding_end_date: formatAsYYYYMMDD(Date())
     });
-  }
 
-  render() {
-    if (this.props.project === undefined) {
-      return null;
-    }
+    useEffect(() => {
+        if (formType === 'update' && projectFromStore && currentUser) {
+            if (projectFromStore.user_id !== currentUser.id) {
+                navigate("/");
+            }
+        }
+    }, [navigate, currentUser, formType, projectFromStore]);
 
-    if (this.props.formType === 'update') {
-      if (
-        this.props.project.user_id !==
-        this.props.currentUser.id
-      ) {
-        this.props.history.push("/");
-      }
+    useEffect(() => {
+        if (pathname === `/projects/${projectId}/edit` && projectFromStore) {
+            setProject(projectFromStore);
+        }
+    }, [pathname, projectId, projectFromStore]);
+
+    useEffect(() => {
+        if (projectId && formType === 'update') {
+            dispatch(fetchProject(projectId));
+        }
+    }, [dispatch, projectId, formType]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        const processFormAction = formType === 'new' 
+            ? createProject(project)
+            : updateProject(project);
+        
+        dispatch(processFormAction).then((result) => {
+            if (result.project) {
+                navigate(`/projects/${result.project.id}`);
+            }
+        });
+    };
+
+    const update = (field) => (e) => {
+        setProject({
+            ...project,
+            [field]: e.currentTarget.value
+        });
+    };
+
+    const renderEndDateInput = () => {
+        if (formType === 'update') {
+            return (
+                <div className="project-form-input-section">
+                    <input
+                        type="date"
+                        value={project.funding_end_date?.slice(0, 10) || ''}
+                        className="project-input"
+                        disabled
+                    />
+                    <p>
+                        Projects with shorter durations have higher success
+                        rates. You won't be able to adjust your duration
+                        after you launch.
+                    </p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="project-form-input-section">
+                    <input
+                        type="date"
+                        value={project.funding_end_date}
+                        onChange={update('funding_end_date')}
+                        className="project-input"
+                    />
+                    <p>
+                        Projects with shorter durations have higher success
+                        rates. You won't be able to adjust your duration
+                        after you launch.
+                    </p>
+                </div>
+            );
+        }
+    };
+
+    const renderErrors = () => {
+        if (!errors || errors.length === 0) return null;
+        
+        return (
+            <div className="error-display">
+                <ul>
+                    {errors.map((error, i) => (
+                        <li key={`error-${i}`}>{error}</li>
+                    ))}
+                </ul>
+            </div>
+        );
+    };
+
+    const renderLabelSection = (text) => ((
+        <div className="project-form-label-section">
+            <h4 className="project-field-label">{text}</h4>
+        </div>
+    ))
+
+    const renderPageTitle = () => (
+        formType === 'new'  ? "Let's get started" : "Edit project"
+    )
+
+    if (formType === 'update' && !projectFromStore) {
+        return null;
     }
 
     return (
-      <div className="project-form-page">
-        <h2>{this.renderPageTitle()}</h2>
+        <div className="project-form-page">
+        <h2>{renderPageTitle()}</h2>
         <div className="page-subtitle">
-          Make a great first impression with your project’s title and
-          image, and set your funding goal, campaign duration, and
-          project category.
+            Make a great first impression with your project's title and
+            image, and set your funding goal, campaign duration, and
+            project category.
         </div>
         <div className="project-form-container">
-          <form
-            className="project-form"
-            onSubmit={this.handleSubmit}
-          >
-            {this.renderErrors()}
-            <ul>
-              <li>
-                <div className="project-form-label-section">
-                  <h4 className="project-field-label">
-                    Project image
-                  </h4>
-                </div>
-                <div className="project-form-input-section">
-                  <img src={this.state.image_url}></img>
-                  <p>
-                    This is the first thing that people will see when
-                    they come across your project. Choose an image
-                    that’s crisp and text-free.
-                  </p>
-                  <input
-                    type="text"
-                    value={this.state.image_url}
-                    onChange={this.update('image_url')}
-                    className="project-input"
-                  />
-                </div>
-              </li>
+            <form className="project-form" onSubmit={handleSubmit}>
+                {renderErrors()}
+                <ul>
+                    <li>
+                    <div className="project-form-label-section">
+                        <h4 className="project-field-label">Project image</h4>
+                    </div>
+                    <div className="project-form-input-section">
+                        <img src={project.image_url} alt="Project preview" />
+                        <p>
+                        This is the first thing that people will see when
+                        they come across your project. Choose an image
+                        that's crisp and text-free.
+                        </p>
+                        <input
+                        type="text"
+                        value={project.image_url}
+                        onChange={update('image_url')}
+                        className="project-input"
+                        />
+                    </div>
+                    </li>
 
-              <li>
-                {this.renderLabelSection("Project title")}
-                <div className="project-form-input-section">
-                  <input
-                    type="text"
-                    value={this.state.title}
-                    onChange={this.update('title')}
-                    className="project-input"
-                  />
-                  <p>
-                    Our search looks through words from your project title
-                    and blurb, so make them clear and descriptive of what
-                    you’re making.
-                  </p>
+                    <li>
+                    {renderLabelSection("Project title")}
+                    <div className="project-form-input-section">
+                        <input
+                        type="text"
+                        value={project.title}
+                        onChange={update('title')}
+                        className="project-input"
+                        />
+                        <p>
+                        Our search looks through words from your project title
+                        and blurb, so make them clear and descriptive of what
+                        you're making.
+                        </p>
+                        <p>
+                        These words will help people find your project, so
+                        choose them wisely! Your name will be searchable too.
+                        </p>
+                    </div>
+                    </li>
 
-                  <p>
-                    These words will help people find your project, so
-                    choose them wisely! Your name will be searchable too.
-                  </p>
-                </div>
-              </li>
+                    <li>
+                        {renderLabelSection("Short blurb")}
+                        <div className="project-form-input-section">
+                            <textarea
+                                maxLength="135"
+                                onChange={update('short_blurb')}
+                                className="project-input shortblurb"
+                                value={project.short_blurb}
+                            />
+                            <p>
+                                Give people a sense of what you're doing. Skip
+                                "Help me" and focus on what you're making.
+                            </p>
+                        </div>
+                    </li>
 
-              <li>
-                {this.renderLabelSection("Short blurb")}
-                <div className="project-form-input-section">
-                  <textarea
-                    maxLength="135"
-                    onChange={this.update('short_blurb')}
-                    className="project-input shortblurb"
-                    value={this.state.short_blurb}
-                  >
-                  </textarea>
-                  <p>
-                    Give people a sense of what you’re doing. Skip
-                    “Help me” and focus on what you’re making.
-                  </p>
-                </div>
-              </li>
+                    <li>
+                        {renderLabelSection("Description")}
+                        <div className="project-form-input-section">
+                            <textarea
+                            onChange={update('description')}
+                            className="project-input description"
+                            value={project.description}
+                            />
+                        </div>
+                    </li>
 
-              <li>
-                {this.renderLabelSection("Description")}
-                <div className="project-form-input-section">
-                  <textarea
-                    onChange={this.update('description')}
-                    className="project-input description"
-                    value={this.state.description}
-                  >
-                  </textarea>
-                </div>
-              </li>
-
-              <li>
-                {this.renderLabelSection("Category")}
-                <div className="project-form-input-section">
-                  <select
-                    onChange={this.update('category')}
-                    className="project-input"
-                    value={this.state.category}
-                  >
-                    {
-                      Object.keys(this.props.categories).map(
-                        (id) => {
-                          return (
-                            <option
-                              key={id}
-                              value={this.props.categories[id]}
+                    <li>
+                        {renderLabelSection("Category")}
+                        <div className="project-form-input-section">
+                            <select
+                            onChange={update('category')}
+                            className="project-input"
+                            value={project.category}
                             >
-                              {this.props.categories[id]}
-                            </option>
-                          );
-                        }
-                      )
-                    }
-                  </select>
-                </div>
-              </li>
+                            {categories && Object.keys(categories).map((id) => (
+                                <option key={id} value={categories[id]}>
+                                    {categories[id]}
+                                </option>
+                            ))}
+                            </select>
+                        </div>
+                    </li>
 
-              <li>
-                {this.renderLabelSection("Funding end date")}
-                {this.renderEndDateInput()}
-              </li>
+                    <li>
+                        {renderLabelSection("Funding end date")}
+                        {renderEndDateInput()}
+                    </li>
 
-              <li>
-                {this.renderLabelSection("Funding goal ($)")}
-                <div className="project-form-input-section">
-                  <input
-                    type="text"
-                    value={this.state.funding_amount}
-                    onChange={this.update('funding_amount')}
-                    className="project-input"
-                  />
-                <p>
-                  Funding on Kickstarter is all-or-nothing. It’s okay
-                  to raise more than your goal, but if your goal isn’t
-                  met, no money will be collected. Your goal should
-                  reflect the minimum amount of funds you need to
-                  complete your project and send out rewards, and
-                  include a buffer for payments processing fees.
-                </p>
-                <p>
-                  If your project is successfully funded, the following
-                  fees will be collected from your funding total:
-                  Quikstarter’s 5% fee, and payment processing fees
-                  (between 3% and 5%). If funding isn’t successful,
-                  there are no fees.
-                </p>
-                </div>
-              </li>
+                    <li>
+                        {renderLabelSection("Funding goal ($)")}
+                        <div className="project-form-input-section">
+                            <input
+                                type="text"
+                                value={project.funding_amount}
+                                onChange={update('funding_amount')}
+                                className="project-input"
+                            />
+                            <p>
+                                Funding on Kickstarter is all-or-nothing. It's okay
+                                to raise more than your goal, but if your goal isn't
+                                met, no money will be collected. Your goal should
+                                reflect the minimum amount of funds you need to
+                                complete your project and send out rewards, and
+                                include a buffer for payments processing fees.
+                            </p>
+                            <p>
+                                If your project is successfully funded, the following
+                                fees will be collected from your funding total:
+                                Quikstarter's 5% fee, and payment processing fees
+                                (between 3% and 5%). If funding isn't successful,
+                                there are no fees.
+                            </p>
+                        </div>
+                    </li>
 
-              <li>
-                <div className="project-form-label-section">
-                </div>
-                <div className="project-form-input-section">
-                  <input
-                    type="submit"
-                    value={
-                      this.props.formType === 'new'
-                      ? 'Create project'
-                      : 'Update project'
-                    }
-                  />
-                </div>
-              </li>
-            </ul>
-
-          </form>
+                    <li>
+                        <div className="project-form-label-section"></div>
+                        <div className="project-form-input-section">
+                            <input
+                                type="submit"
+                                value={
+                                    formType === 'new'
+                                    ? 'Create project'
+                                    : 'Update project'
+                                }
+                            />
+                        </div>
+                    </li>
+                </ul>
+            </form>
         </div>
-      </div>
+        </div>
     );
-  }
 }
 
-export default withRouter(ProjectForm);
+export default ProjectForm;
