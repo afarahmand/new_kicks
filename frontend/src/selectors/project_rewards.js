@@ -1,3 +1,5 @@
+import { sortByAscendingAmount } from "../utils/sort_util";
+
 export const selectProjectRewards = (projectId) => (
     (state) => {
         let projectRewards = [];
@@ -10,6 +12,6 @@ export const selectProjectRewards = (projectId) => (
             }
         }
 
-        return projectRewards;
+        return sortByAscendingAmount(projectRewards);
     }
 )

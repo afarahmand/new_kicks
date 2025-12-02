@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { createBacking } from '../../../actions/backing_actions';
-import RewardIndexDisplay from '../../reward/reward_index_display';
+import RewardIndexDisplayItem from '../../reward/reward_index_display_item';
 
 import { selectAlreadyBacked } from '../../../selectors/already_backed';
 import { selectProjectRewards } from '../../../selectors/project_rewards';
@@ -17,11 +17,8 @@ const DescriptionRewardsSection = ({ project }) => {
     function renderRewards () {
         if (currentUser) {
             if (currentUser.id === project.user_id) {
-                return (
-                    <div className="col-3 rewards"></div>
-                );
-            }
-            else if (alreadyBacked) {
+                return ( <div className="col-3 rewards"></div> );
+            } else if (alreadyBacked) {
                 return (
                     <div className="col-3 rewards">
                         <h3>Thank You for Your Support!!!</h3>
@@ -33,10 +30,15 @@ const DescriptionRewardsSection = ({ project }) => {
         return (
             <div className="col-3 rewards">
                 <h3>Support</h3>
-                <RewardIndexDisplay
-                    rewards={projectRewards}
-                    createBacking={dispatchCreateBacking}
-                />
+                {
+                    projectRewards.map((reward, idx) => (
+                        <RewardIndexDisplayItem
+                            key={idx}
+                            reward={reward}
+                            createBacking={dispatchCreateBacking}
+                        />
+                    ))
+                }
             </div>
         );
     }

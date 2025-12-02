@@ -36,7 +36,7 @@ const DiscoverPage = () => {
                                     key={id}
                                     value={categories[id]}
                                 >
-                                {categories[id]}
+                                    {categories[id]}
                                 </option>
                             );
                         })
