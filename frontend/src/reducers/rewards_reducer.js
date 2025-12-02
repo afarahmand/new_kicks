@@ -15,14 +15,18 @@ const rewardsReducer = (oldState = {}, action) => {
   switch(action.type) {
     case RECEIVE_USER:
       newState = merge({}, oldState);
-      Object.keys(action.rewards).forEach(rewardId => {
-        newState[rewardId] = action.rewards[rewardId];
-      });
+      if (action.rewards) {
+        Object.keys(action.rewards).forEach(rewardId => {
+          newState[rewardId] = action.rewards[rewardId];
+        });
+      }
       return newState;
 
     case RECEIVE_PROJECT:
       newState = merge({}, oldState);
-      newState = action.rewards;
+      if (action.rewards) {
+        newState = action.rewards;
+      }
       return newState;
 
     case RECEIVE_REWARD:
@@ -36,6 +40,8 @@ const rewardsReducer = (oldState = {}, action) => {
       return newState;
 
     case RECEIVE_REWARD_ERRORS:
+      return oldState;
+      
     default:
       return oldState;
   }

@@ -32,7 +32,7 @@ const receiveProjectErrors = errors => ({
 export const fetchProjects = () => dispatch => (
   ProjectApiUtil.fetchProjects().then(
     projects => dispatch(receiveAllProjects(projects)),
-    err => dispatch(receiveProjectErrors(err.responseJSON))
+    err => dispatch(receiveProjectErrors(err))
   )
 );
 

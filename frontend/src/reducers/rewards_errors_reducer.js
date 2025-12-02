@@ -10,7 +10,7 @@ const rewardsErrorsReducer = (oldState = [], action) => {
     case RECEIVE_REWARD:
       return [];
     case RECEIVE_REWARD_ERRORS:
-      return action.errors.responseJSON;
+      return action.errors;
     default:
       return oldState;
   }

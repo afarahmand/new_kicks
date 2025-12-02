@@ -30,16 +30,21 @@ const projectsReducer = (oldState = {}, action) => {
 
     case RECEIVE_USER:
       newState = merge({}, oldState);
-      Object.keys(action.backed_projects).forEach(projectId => {
-        newState[projectId] = action.backed_projects[projectId];
-      });
-      Object.keys(action.created_projects).forEach(projectId => {
-        newState[projectId] = action.created_projects[projectId];
-      });
+      if (action.backed_projects) {
+        Object.keys(action.backed_projects).forEach(projectId => {
+          newState[projectId] = action.backed_projects[projectId];
+        });
+      }
+      if (action.created_projects) {
+        Object.keys(action.created_projects).forEach(projectId => {
+          newState[projectId] = action.created_projects[projectId];
+        });
+      }
       return newState;
 
     case RECEIVE_PROJECT_ERRORS:
       return oldState;
+
     default:
       return oldState;
   }

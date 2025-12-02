@@ -10,11 +10,13 @@ const projectsErrorsReducer = (oldState = [], action) => {
 
   switch(action.type) {
     case RECEIVE_ALL_PROJECTS:
+      return oldState;
     case RECEIVE_PROJECT:
+      return oldState;
     case REMOVE_PROJECT:
       return [];
     case RECEIVE_PROJECT_ERRORS:
-      return action.errors.responseJSON;
+      return action.errors;
     default:
       return oldState;
   }

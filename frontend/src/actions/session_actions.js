@@ -29,27 +29,27 @@ export const getCurrentUser = () => dispatch => {
         return dispatch(receiveCurrentUser(null));
       }
     },
-    err => dispatch(receiveSessionErrors(err.responseJSON))
+    err => dispatch(receiveSessionErrors(err))
   )
 }
 
 export const signin = user => dispatch => (
   SessionApiUtil.signin(user).then(
     currentUser => dispatch(receiveCurrentUser(currentUser)),
-    err => dispatch(receiveSessionErrors(err.responseJSON))
+    err => (dispatch(receiveSessionErrors(err)))
   )
-);
+)
 
 export const signout = () => dispatch => (
   SessionApiUtil.signout().then(
     () => dispatch(receiveCurrentUser(null)),
-    err => dispatch(receiveSessionErrors(err.responseJSON))
+    err => dispatch(receiveSessionErrors(err))
   )
-);
+)
 
 export const signup = user => dispatch => (
   SessionApiUtil.signup(user).then(
     currentUser => dispatch(receiveCurrentUser(currentUser)),
-    err => dispatch(receiveSessionErrors(err.responseJSON))
+    err => dispatch(receiveSessionErrors(err))
   )
-);
+)

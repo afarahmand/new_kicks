@@ -1,27 +1,27 @@
 import { fetchWrapper } from "./base_api_util";
 
-export const getCurrentUser = () => {
-  return fetchWrapper('api/session', {
+export const getCurrentUser = () => (
+  fetchWrapper('api/session', {
     method: 'GET',
-  });
-}
+  })
+)
 
-export const signin = user => {
-  return fetchWrapper('/api/session', {
+export const signin = user => (
+  fetchWrapper('api/session', {
     method: 'POST',
     body: JSON.stringify({ user })
-  });
-};
+  })
+)
 
-export const signout = () => {
-  return fetchWrapper('api/session', {
+export const signout = () => (
+  fetchWrapper('api/session', {
     method: 'DELETE',
-  });
-};
+  })
+)
 
-export const signup = user => {
-  return fetchWrapper('/api/users', {
+export const signup = user => (
+  fetchWrapper('api/users', {
     method: 'POST',
     body: JSON.stringify({ user })
-  });
-};
+  })
+)
