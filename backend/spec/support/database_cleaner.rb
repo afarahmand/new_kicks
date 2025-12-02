@@ -2,6 +2,9 @@ require 'database_cleaner-active_record'
 
 RSpec.configure do |config|
   config.before(:suite) do
+    # SAFETY CHECK - Only clean in test environment
+    next unless Rails.env.test?
+    
     # Clean once at the beginning to remove old data
     DatabaseCleaner.clean_with(:truncation)
   end
