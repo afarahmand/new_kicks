@@ -35,7 +35,7 @@ class Api::RewardsController < Api::BaseController
       render json: ['Cannot update rewards for projects that were not created by you'], status: 401
     else
       if @reward
-        if @reward.update_attributes(reward_params)
+        if @reward.update(reward_params)
           render "api/rewards/show"
         else
           render json: @reward.errors.full_messages, status: 404

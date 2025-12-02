@@ -14,7 +14,7 @@ class Api::ProjectsController < Api::BaseController
     @project = current_user.projects.find_by(id: params[:id])
 
     if @project
-      if @project.update_attributes(project_params)
+      if @project.update(project_params)
         render "api/projects/show"
       else
         render json: @project.errors.full_messages, status: 401
