@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 const Auth = ({ children, signedIn }) => {
   return !signedIn ? children : <Navigate to="/" replace />;
