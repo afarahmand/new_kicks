@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import ErrorIndex from '../shared/error_index';
+import NavLink from './navlink';
+import TopText from './top_text';
 
 import {
   receiveSessionErrors,
@@ -21,18 +23,16 @@ const SessionForm = () => {
   
   const errors = useSelector((state) => state.errors.session);
 
-  const [form, setForm] = useState({
+  const initState = {
     name: "",
     email: "",
     password: "",
-  })
+  }
+
+  const [form, setForm] = useState(initState);
 
   useEffect(() => {
-    setForm({
-      name: "",
-      email: "",
-      password: "",
-    })
+    setForm(initState);
 
     if (errors.length > 0) {
       clearSessionErrors();
@@ -96,35 +96,6 @@ const SessionForm = () => {
     }
   }
 
-  function renderNavLink() {
-    if (formType === 'Sign in') {
-      return (
-        <div id="div-above-signin-form" className="signin-form">
-            New to Quikstarter? <Link to="/signup">Sign up!</Link>
-        </div>
-      );
-    } else {
-      return (
-        <div id="div-above-signin-form" className="signin-form">
-          Have an account? <Link to="/signin">Sign in</Link>
-        </div>
-      );
-    }
-  }
-
-  function renderTopText() {
-    let text = "Sign in";
-    if (formType === "Sign up") {
-      text = "Sign up";
-    }
-
-    return (
-      <div className="signin-form-top-text">
-        <h2>{text}</h2>
-      </div>
-    );
-  }
-
   function update(field) {
     return e => setForm({
       ...form,
@@ -134,10 +105,9 @@ const SessionForm = () => {
 
   return (
     <div className="signin-form-container">
-      {renderNavLink()}
+      <NavLink formType={formType} />
       <form className="signin-form" onSubmit={handleSubmit}>
-        {renderTopText()}
-
+        <TopText formType={formType} />
         <ErrorIndex errors={errors} />
 
         <ul>
