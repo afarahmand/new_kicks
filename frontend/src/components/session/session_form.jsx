@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
+import ErrorIndex from '../shared/error_index';
+
 import {
   receiveSessionErrors,
   signin,
@@ -80,20 +82,6 @@ const SessionForm = () => {
     }
   }
 
-  function renderErrors() {
-    return (
-      <div className="error-display">
-        <ul>
-          {errors.map((error, i) => (
-            <li key={`error-${i}`}>
-              {error}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
   function renderNameInput() {
     if (formType === 'Sign up') {
       return (
@@ -149,7 +137,8 @@ const SessionForm = () => {
       {renderNavLink()}
       <form className="signin-form" onSubmit={handleSubmit}>
         {renderTopText()}
-        {renderErrors()}
+
+        <ErrorIndex errors={errors} />
 
         <ul>
           <li>

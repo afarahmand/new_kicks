@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import ErrorIndex from '../shared/error_index';
+
 import { formatAsYYYYMMDD } from '../../utils/date_util';
 
 import {
@@ -114,20 +116,6 @@ const ProjectForm = () => {
         }
     };
 
-    const renderErrors = () => {
-        if (!errors || errors.length === 0) return null;
-        
-        return (
-            <div className="error-display">
-                <ul>
-                    {errors.map((error, i) => (
-                        <li key={`error-${i}`}>{error}</li>
-                    ))}
-                </ul>
-            </div>
-        );
-    };
-
     const renderLabelSection = (text) => ((
         <div className="project-form-label-section">
             <h4 className="project-field-label">{text}</h4>
@@ -152,7 +140,7 @@ const ProjectForm = () => {
         </div>
         <div className="project-form-container">
             <form className="project-form" onSubmit={handleSubmit}>
-                {renderErrors()}
+                <ErrorIndex errors={errors} />
                 <ul>
                     <li>
                     <div className="project-form-label-section">
