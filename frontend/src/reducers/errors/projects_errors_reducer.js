@@ -3,7 +3,7 @@ import {
   RECEIVE_PROJECT,
   REMOVE_PROJECT,
   RECEIVE_PROJECT_ERRORS
-} from '../actions/project_actions';
+} from '../../actions/project_actions';
 
 const projectsErrorsReducer = (oldState = [], action) => {
   Object.freeze(oldState);

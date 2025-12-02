@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import projectsErrorsReducer from './projects_errors_reducer';
-import rewardsErrorsReducer from './rewards_errors_reducer';
-import sessionErrorsReducer from './session_errors_reducer';
+import projectsErrorsReducer from './errors/projects_errors_reducer';
+import rewardsErrorsReducer from './errors/rewards_errors_reducer';
+import sessionErrorsReducer from './errors/session_errors_reducer';
 
 const errorsReducer = combineReducers({
   projects: projectsErrorsReducer,

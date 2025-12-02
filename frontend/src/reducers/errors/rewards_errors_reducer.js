@@ -1,7 +1,7 @@
 import {
   RECEIVE_REWARD,
   RECEIVE_REWARD_ERRORS
-} from '../actions/reward_actions';
+} from '../../actions/reward_actions';
 
 const rewardsErrorsReducer = (oldState = [], action) => {
   Object.freeze(oldState);
