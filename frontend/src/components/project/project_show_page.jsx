@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 
 import { fetchProject } from '../../actions/project_actions';
 
-import TitleSection from './show/title_section';
-import ImageStatusSection from './show/image_status_section';
-import DescriptionRewardsSection from './show/description_rewards_section';
+import TitleSection from './title_section';
+import ImageStatusSection from './image_status_section';
+import DescriptionRewardsSection from './description_rewards_section';
 
 const ProjectShowPage = () => {
     const dispatch = useDispatch();

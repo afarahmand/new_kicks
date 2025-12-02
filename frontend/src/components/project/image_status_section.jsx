@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { deleteProject } from '../../../actions/project_actions';
-import { daysRemainingUntilEnd } from '../../../utils/date_util';
+import { deleteProject } from '../../actions/project_actions';
+import { daysRemainingUntilEnd } from '../../utils/date_util';
 
 const ImageStatusSection = ({ project }) => {
     const navigate = useNavigate();

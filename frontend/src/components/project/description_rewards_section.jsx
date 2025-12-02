@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { createBacking } from '../../../actions/backing_actions';
-import RewardIndexDisplayItem from '../../reward/reward_index_display_item';
+import { createBacking } from '../../actions/backing_actions';
+import RewardIndexDisplayItem from '../reward/reward_index_display_item';
 
-import { selectAlreadyBacked } from '../../../selectors/already_backed';
-import { selectProjectRewards } from '../../../selectors/project_rewards';
+import { selectAlreadyBacked } from '../../selectors/already_backed';
+import { selectProjectRewards } from '../../selectors/project_rewards';
 
 const DescriptionRewardsSection = ({ project }) => {
     const currentUser = useSelector((state) => (state.session.currentUser));
