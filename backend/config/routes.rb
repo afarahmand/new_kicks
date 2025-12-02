@@ -23,7 +23,4 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy, :show]
     resources :users, only: [:create, :show]
   end
-
-  # Defines the root path route ("/")
-  root "static_pages#root"
 end

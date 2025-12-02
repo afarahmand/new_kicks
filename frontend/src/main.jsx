@@ -24,8 +24,7 @@ import './stylesheets/font_awesome_all.js'
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = createRoot(document.getElementById('root'));
-  let store;
-  let preloadedState = {
+  const preloadedState = {
     session: {},
     entities: {
       categories: {
@@ -39,17 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  if (window.currentUser) {
-    preloadedState.session.currentUser = window.currentUser;
-    store = configureStore(preloadedState);
-    delete window.currentUser;
-  } else {
-    store = createStore(preloadedState);
-  }
-
   root.render(
     <StrictMode>
-      <Provider store={store}>
+      <Provider store={ createStore(preloadedState) }>
         <Root />
       </Provider>
     </StrictMode>
