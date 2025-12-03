@@ -1,0 +1,16 @@
+Plan
+- - -
+1) fix local rails (done)
+2) bring whole BE over to new kicks (done)
+3) add request specs to new kicks (done)
+4) transfer old React Redux app into Vite app and get it working (done)
+
+s5) add React specific tests
+    - bring feature specs over?
+6) partial upgrade to new Redux Toolkit
+    - combine actions and reducers into slices
+7) create new BE Python API
+8) Transition to TypeScript?
+
+
+docker exec -e RAILS_ENV=test -it $CONTAINER bundle exec rspec spec
