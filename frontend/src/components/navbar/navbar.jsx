@@ -11,11 +11,7 @@ const NavBar = () => {
     let lastLink;
 
     if (loading) {
-        lastLink = (
-            <button>
-                Sign
-            </button>
-        );
+        lastLink = ( <button>Sign</button> );
     } else if (currentUser) {
         lastLink = (
             <button onClick={() => dispatch(signout())}>
@@ -23,11 +19,7 @@ const NavBar = () => {
             </button>
         );
     } else {
-        lastLink = (
-            <Link to='/signin'>
-                Sign in
-            </Link>
-        );
+        lastLink = ( <Link to='/signin'>Sign in</Link> );
     }
 
     return (

@@ -1,5 +1,3 @@
-import merge from 'deepmerge';
-
 import {
   LOADING,
   RECEIVE_CURRENT_USER,
@@ -8,22 +6,14 @@ import {
 
 const sessionReducer = (oldState = { currentUser: null, errors: [], loading: false }, action) => {
   Object.freeze(oldState);
-  let newState;
 
   switch(action.type) {
     case LOADING:
-      newState = merge({}, oldState);
-      newState.loading = true;
-      return newState;
+      return { ...oldState, loading: true };
     case RECEIVE_CURRENT_USER:
-      newState = merge({}, oldState);
-      newState.currentUser = action.user;
-      newState.loading = false;
-      return newState;
+      return { ...oldState, currentUser: action.user, loading: false };
     case RECEIVE_SESSION_ERRORS:
-      newState = merge({}, oldState);
-      newState.loading = false;
-      return newState;
+      return { ...oldState, loading: false };
     default:
       return oldState;
   }

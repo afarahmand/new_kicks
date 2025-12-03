@@ -4,9 +4,9 @@ import {
   RECEIVE_PROJECT,
   RECEIVE_PROJECT_ERRORS,
   REMOVE_PROJECT
-} from '../actions/project_actions';
+} from '../../actions/project_actions';
 
-import { RECEIVE_USER } from '../actions/user_actions';
+import { RECEIVE_USER } from '../../actions/user_actions';
 
 const projectsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -15,13 +15,10 @@ const projectsReducer = (oldState = {}, action) => {
   switch(action.type) {
 
     case RECEIVE_ALL_PROJECTS:
-      newState = action.projects;
-      return newState;
+      return action.projects;
 
     case RECEIVE_PROJECT:
-      newState = merge({}, oldState);
-      newState[action.project.id] = action.project;
-      return newState;
+      return { ...oldState, [action.project.id]: action.project };
 
     case REMOVE_PROJECT:
       newState = merge({}, oldState);

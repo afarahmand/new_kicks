@@ -1,8 +1,8 @@
 import merge from 'deepmerge';
 
-import { RECEIVE_BACKING } from '../actions/backing_actions';
-import { RECEIVE_PROJECT } from '../actions/project_actions';
-import { RECEIVE_USER } from '../actions/user_actions';
+import { RECEIVE_BACKING } from '../../actions/backing_actions';
+import { RECEIVE_PROJECT } from '../../actions/project_actions';
+import { RECEIVE_USER } from '../../actions/user_actions';
 
 const backingsReducer = (oldState = {}, action) => {
     Object.freeze(oldState);
@@ -10,9 +10,7 @@ const backingsReducer = (oldState = {}, action) => {
 
     switch(action.type) {
       case RECEIVE_BACKING:
-        newState = merge({}, oldState);
-        newState[action.backing.id] = action.backing;
-        return newState;
+        return { ...oldState, [action.backing.id]: action.backing };
 
       case RECEIVE_PROJECT:
         newState = merge({}, oldState);

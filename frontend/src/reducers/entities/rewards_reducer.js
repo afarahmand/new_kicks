@@ -3,10 +3,10 @@ import {
   RECEIVE_REWARD,
   RECEIVE_REWARD_ERRORS,
   REMOVE_REWARD
-} from '../actions/reward_actions';
+} from '../../actions/reward_actions';
 
-import { RECEIVE_PROJECT } from '../actions/project_actions';
-import { RECEIVE_USER } from '../actions/user_actions';
+import { RECEIVE_PROJECT } from '../../actions/project_actions';
+import { RECEIVE_USER } from '../../actions/user_actions';
 
 const rewardsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
