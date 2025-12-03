@@ -4,13 +4,13 @@ const DiscoverIndex = ({ projects }) => {
   return (
     <section className="project-index-display">
       <ul>
-      {
-        Object.keys(projects).map(id => (
-          <li key={id}>
-            <DiscoverIndexItem key={id} project={projects[id]} />
-          </li>
-        ))
-      }
+        {
+          Object.keys(projects).map(id => (
+            <li key={id}>
+              <DiscoverIndexItem key={id} project={projects[id]} />
+            </li>
+          ))
+        }
       </ul>
     </section>
   );
