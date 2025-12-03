@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 const Auth = ({ children, signedIn }) => {
@@ -6,7 +6,8 @@ const Auth = ({ children, signedIn }) => {
 };
 
 const Protected = ({ children, signedIn }) => {
-  return signedIn ? children : <Navigate to="/signin" replace />;
+  const loading = useSelector(state => state.session.loading);
+  return (signedIn || loading) ? children : <Navigate to="/signin" replace />;
 };
 
 const mapStateToProps = state => {

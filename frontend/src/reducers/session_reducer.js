@@ -6,7 +6,7 @@ import {
   RECEIVE_SESSION_ERRORS
 } from '../actions/session_actions';
 
-const sessionReducer = (oldState = {currentUser: null, errors: []}, action) => {
+const sessionReducer = (oldState = { currentUser: null, errors: [], loading: false }, action) => {
   Object.freeze(oldState);
   let newState;
 
@@ -25,9 +25,7 @@ const sessionReducer = (oldState = {currentUser: null, errors: []}, action) => {
       newState.loading = false;
       return newState;
     default:
-      newState = merge({}, oldState);
-      newState.loading = false;
-      return newState;
+      return oldState;
   }
 };
 

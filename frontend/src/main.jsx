@@ -25,7 +25,6 @@ import './stylesheets/font_awesome_all.js'
 document.addEventListener("DOMContentLoaded", () => {
   const root = createRoot(document.getElementById('root'));
   const preloadedState = {
-    session: {},
     entities: {
       categories: {
         1: "Art",
@@ -35,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
         5: "Games",
         6: "Technology"
       }
+    },
+    session: {
+      loading: true,
     }
   };
 
