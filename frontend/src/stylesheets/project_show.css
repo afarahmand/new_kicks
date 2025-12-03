@@ -114,6 +114,10 @@ section.show-status {
   line-height: 2;
 }
 
+.project-show-page .error-display {
+  text-align: right;
+}
+
 .project-show-page .buttons {
   display: flex;
   flex-direction: column;

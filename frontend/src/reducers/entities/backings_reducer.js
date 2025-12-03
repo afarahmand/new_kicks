@@ -1,6 +1,9 @@
 import merge from 'deepmerge';
 
-import { RECEIVE_BACKING } from '../../actions/backing_actions';
+import {
+  RECEIVE_BACKING,
+  RECEIVE_BACKING_ERRORS
+} from '../../actions/backing_actions';
 import { RECEIVE_PROJECT } from '../../actions/project_actions';
 import { RECEIVE_USER } from '../../actions/user_actions';
 
@@ -29,6 +32,9 @@ const backingsReducer = (oldState = {}, action) => {
           });
         }
         return newState;
+
+      case RECEIVE_BACKING_ERRORS:
+        return oldState;
 
       default:
         return oldState;

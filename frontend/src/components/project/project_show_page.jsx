@@ -6,23 +6,21 @@ import { fetchProject } from '../../actions/project_actions';
 
 import TitleSection from './title_section';
 import ImageStatusSection from './image_status_section';
+import ErrorIndex from '../shared/error_index';
 import ProjectRewardIndex from './project_reward_index';
 
 const ProjectShowPage = () => {
     const dispatch = useDispatch();
     const { projectId } = useParams();
-    const project = useSelector((state) => (state.entities.projects[projectId]));
-    const dispatchFetchProject = (id) => dispatch(fetchProject(id));
+    const project = useSelector(state => state.entities.projects[projectId]);
+    const backingErrors = useSelector(state => state.errors.backings);
+    const dispatchFetchProject = id => dispatch(fetchProject(id));
 
     useEffect(() => {
         dispatchFetchProject(projectId);
-        
-        return () => {};
     }, [dispatch, projectId]);
 
-    if (project === undefined) {
-        return null;
-    }
+    if (project === undefined) { return null; }
 
     return (
       <div className="content-narrow-project-show project-show-page">
@@ -32,6 +30,7 @@ const ProjectShowPage = () => {
           <div className="col-12 description">
             <h3>About</h3>
             <p>{project.description}</p>
+            <ErrorIndex errors={backingErrors} />
           </div>
 
           <ProjectRewardIndex project={project} />
