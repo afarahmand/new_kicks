@@ -5,7 +5,6 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:password_digest) }
-    xit { should validate_presence_of(:session_token) }
     it { should validate_presence_of(:image_url) }
 
     it "validates uniqueness of email" do
@@ -36,8 +35,6 @@ RSpec.describe User, type: :model do
 
     it { should validate_length_of(:password).is_at_least(4) }
     it { should allow_value(nil).for(:password) }
-
-    xit { should before_validation(:ensure_session_token) }
   end
 
   describe "Associations" do

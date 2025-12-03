@@ -273,35 +273,6 @@ RSpec.describe Project, type: :model do
           expect(sorted_results[idx]).to be <= sorted_results[idx + 1]
         end
       end
-
-      xit "% Backed" do
-        # n = 10
-        #
-        # n.times do |i|
-        #   user = create(:user)
-        #   project = create(:project, user_id: user.id, funding_amount: 10000)
-        #   create(:reward, project: project, amount: 1000)
-        # end
-        #
-        # reward_indices = Reward.pluck(:id)
-        #
-        # reward_indices.each do |reward_idx|
-        #   user_ids = User.pluck(:id)
-        #   (n*rand).floor.times do |backing_idx|
-        #     user_id = user_ids.sample
-        #     create(:backing, reward_id: reward_idx, user_id: user_id)
-        #     user_ids-=[user_id]
-        #   end
-        # end
-        #
-        # sorted_results = Project::discovery_results(sort: "% Backed").map(&:id)
-        # expected = Project::discovery_results(sort: "Random").sort{ |x,y| x.percentage_funded <=> y.percentage_funded }.map(&:id)
-        #
-        # p sorted_results
-        # p expected
-        #
-        # expect(sorted_results).to eq(expected)
-      end
     end
   end
 
