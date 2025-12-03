@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import HomePageItem from './home_page_item';
 import StatBar from './stat_bar';
+import TabBar from './tab_bar';
 
 import { fetchProjects } from '../../actions/project_actions';
 
@@ -46,33 +47,7 @@ const HomePage = () => {
         <div>
             <StatBar />
             <section className="home-main content-narrow">
-                <div className="tab-bar">
-                    <ul>
-                    {
-                        <li key="1">
-                            <button
-                                id="1"
-                                onClick={selectCategory(categories[1])}
-                                autoFocus
-                            >
-                                {categories[1]}
-                            </button>
-                        </li>
-                    }
-                    {
-                        Object.keys(categories).slice(1).map(id => (
-                        <li key={id}>
-                            <button
-                                id={id}
-                                onClick={selectCategory(categories[id])}
-                            >
-                                {categories[id]}
-                            </button>
-                        </li>
-                        ))
-                    }
-                    </ul>
-                </div>
+                <TabBar categories={categories} selectCategory={selectCategory} />
                 
                 <section className="title-bar">
                     <span className="category-title">{chosenCategory}</span>
