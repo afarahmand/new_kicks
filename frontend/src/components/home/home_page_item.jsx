@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const HomePageItem = ({ project }) => {
+  if (project === undefined) { return null; }
+  
   const linkHref = `/projects/${project.id}`;
   
   return (

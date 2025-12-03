@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 const TitleSection = ({ project }) => {
     const creator = useSelector((state) => (state.entities.users[project.user_id]));
+    if (creator === undefined) { return null; }
 
     return (
         <section className="title">
