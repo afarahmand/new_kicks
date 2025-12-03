@@ -11,7 +11,6 @@ import './stylesheets/discover.css';
 import './stylesheets/home_page.css';
 import './stylesheets/navbar.css';
 import './stylesheets/project_form.css';
-import './stylesheets/project_index.css';
 import './stylesheets/project_show.css';
 import './stylesheets/reward_form.css';
 import './stylesheets/search.css';
