@@ -6,7 +6,7 @@ import { fetchProject } from '../../actions/project_actions';
 
 import TitleSection from './title_section';
 import ImageStatusSection from './image_status_section';
-import DescriptionRewardsSection from './description_rewards_section';
+import ProjectRewardIndex from './project_reward_index';
 
 const ProjectShowPage = () => {
     const dispatch = useDispatch();
@@ -28,7 +28,14 @@ const ProjectShowPage = () => {
       <div className="content-narrow-project-show project-show-page">
         <TitleSection project={project} />
         <ImageStatusSection project={project} />
-        <DescriptionRewardsSection project={project} />
+        <section className="description-rewards">
+          <div className="col-12 description">
+            <h3>About</h3>
+            <p>{project.description}</p>
+          </div>
+
+          <ProjectRewardIndex project={project} />
+        </section>
       </div>
     )
 }

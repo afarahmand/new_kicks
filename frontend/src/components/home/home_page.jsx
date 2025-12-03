@@ -70,13 +70,13 @@ const HomePage = () => {
                     <aside className="right-content">
                         <div className="project-list">
                             <ul>
-                            {
-                                Object.keys(displayedProjects).slice(1).map(id => (
-                                    <li key={id}>
-                                        <HomePageItem project={displayedProjects[id]} />
-                                    </li>
-                                ))
-                            }
+                                {
+                                    Object.keys(displayedProjects).slice(1).map(id => (
+                                        <li key={id}>
+                                            <HomePageItem project={displayedProjects[id]} />
+                                        </li>
+                                    ))
+                                }
                             </ul>
                         </div>
                     </aside>
