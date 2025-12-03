@@ -1,12 +1,15 @@
-import { sortByAscendingAmount } from "../utils/sort_util";
+import { createSelector } from 'reselect';
+import { selectRewards } from './entities';
+import { sortByAscendingAmount } from '../utils/sort_util';
 
-export const selectProjectRewards = (projectId) => (
-    (state) => {
+const selectProjectRewards = projectId => createSelector(
+    [selectRewards],
+    (rewards) => {
         let projectRewards = [];
         let reward;
 
-        for (const rewardId in state.entities.rewards) {
-            reward = state.entities.rewards[rewardId];
+        for (const rewardId in rewards) {
+            reward = rewards[rewardId];
             if (reward.project_id === projectId) {
                 projectRewards.push(reward);
             }
@@ -15,3 +18,5 @@ export const selectProjectRewards = (projectId) => (
         return sortByAscendingAmount(projectRewards);
     }
 )
+
+export default selectProjectRewards;

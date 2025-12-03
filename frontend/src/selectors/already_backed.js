@@ -1,16 +1,22 @@
-export const selectAlreadyBacked = (projectRewardIds, currentUser) => (
-    (state) => {
-        if (currentUser) {
-            for (const backingId in state.entities.backings) {
-                let backing = state.entities.backings[backingId];
-                if ((projectRewardIds.includes(backing.reward_id)) && (backing.user_id === currentUser.id)) {
-                    return true;
-                }
-            }
+import { createSelector } from 'reselect';
+import { selectBackings } from './entities';
 
-            return false;
-        } else {
-            return false;
+const selectAlreadyBacked = (projectRewardIds, currentUser) => createSelector(
+    [selectBackings], (backings) => {
+        if (!currentUser) { return false; }
+
+        for (const backingId in backings) {
+            const backing = backings[backingId];
+            if (
+                projectRewardIds.includes(backing.reward_id) &&
+                backing.user_id === currentUser.id
+            ) {
+                return true;
+            }
         }
+
+        return false;
     }
-)
+);
+
+export default selectAlreadyBacked;

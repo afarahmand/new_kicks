@@ -7,7 +7,7 @@ export const fetchDiscoveryResults = (category, sort, numProjects) => {
     'discovery[numProjects]': numProjects
   });
 
-  return fetchWrapper(`/api/project_discovery?${params}`, {
+  return fetchWrapper(`api/project_discovery?${params}`, {
     method: 'GET',
   });
 };
@@ -17,7 +17,7 @@ export const fetchSearchResults = searchQuery => {
     'search[query]': searchQuery
   });
 
-  return fetchWrapper(`/api/project_searches?${params}`, {
+  return fetchWrapper(`api/project_searches?${params}`, {
     method: 'GET',
   });
 };

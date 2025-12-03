@@ -7,7 +7,7 @@ import {
   createReward, updateReward, deleteReward
 } from '../../actions/reward_actions';
 
-import { selectProjectRewards } from '../../selectors/project_rewards';
+import selectProjectRewards from '../../selectors/project_rewards';
 
 import RewardFormIndexItem from './reward_form_index_item';
 import NewRewardIndex from './new_reward_index';

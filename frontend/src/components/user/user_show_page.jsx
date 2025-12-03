@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import DiscoverIndex from '../discover/discover_index';
 
-import { selectBackedProjects } from '../../selectors/backed_projects';
-import { selectCreatedProjects } from '../../selectors/created_projects';
+import selectBackedProjects from '../../selectors/backed_projects';
+import selectCreatedProjects from '../../selectors/created_projects';
 
 import { fetchUser } from '../../actions/user_actions';
 
