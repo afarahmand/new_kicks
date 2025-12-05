@@ -7,8 +7,8 @@ Plan
 
 5) add React specific tests
     What to Test (Priority Order)
-        1) Reducers - Easiest to test, pure functions. Start here!
-        2) selectors (done)
+        1) Reducers - Easiest to test, pure functions. Start here! (done)
+        2) Selectors (done)
         3) Utils - Pure functions (date_util, sort_util) (done)
         4) Simple Components - Presentational components without complex state
         5) Actions - Will need mocking later when you add integration tests
