@@ -73,7 +73,7 @@ export const formatAsMonthDDYYYY = inputDate => {
 
   formattedOutput = convertMonthShortToLong(today.slice(4,7)).concat(" ");
   formattedOutput = formattedOutput.concat(day).concat(", ");
-  formattedOutput = formattedOutput.concat(today.slice(10, 15));
+  formattedOutput = formattedOutput.concat(today.slice(11, 15));
 
   return formattedOutput;
 };
