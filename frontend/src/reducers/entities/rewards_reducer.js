@@ -25,7 +25,9 @@ const rewardsReducer = (oldState = {}, action) => {
     case RECEIVE_PROJECT:
       newState = merge({}, oldState);
       if (action.rewards) {
-        newState = action.rewards;
+        Object.keys(action.rewards).forEach(rewardId => {
+            newState[rewardId] = action.rewards[rewardId];
+        });
       }
       return newState;
 
