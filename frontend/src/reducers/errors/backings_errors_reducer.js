@@ -2,6 +2,7 @@ import {
   RECEIVE_BACKING,
   RECEIVE_BACKING_ERRORS,
 } from '../../actions/backing_actions';
+import { RECEIVE_CURRENT_USER } from '../../actions/session_actions';
 
 const backingsErrorsReducer = (oldState = [], action) => {
   Object.freeze(oldState);
@@ -11,8 +12,10 @@ const backingsErrorsReducer = (oldState = [], action) => {
       return [];
     case RECEIVE_BACKING_ERRORS:
       return action.errors;
-    default:
+    case RECEIVE_CURRENT_USER:
       return [];
+    default:
+      return oldState;
   }
 };
 

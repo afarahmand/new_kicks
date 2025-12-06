@@ -4,6 +4,7 @@ import {
     RECEIVE_BACKING,
     RECEIVE_BACKING_ERRORS
 } from '../../../actions/backing_actions';
+import { RECEIVE_CURRENT_USER } from '../../../actions/session_actions';
 
 describe('backingsErrorsReducer', () => {
     it('returns the initial state by default', () => {
@@ -127,8 +128,52 @@ describe('backingsErrorsReducer', () => {
         });
     });
 
+    describe('RECEIVE_CURRENT_USER', () => {
+        it('returns empty array when receiving backing', () => {
+            const initialState = ['You must be signed in to back projects'];
+            const action = { type: RECEIVE_CURRENT_USER };
+            
+            const result = backingsErrorsReducer(initialState, action);
+            
+            expect(result).toEqual([]);
+        });
+
+        it('clears errors from previous state', () => {
+            const initialState = [
+                'Payment failed',
+                'Insufficient funds',
+                'Invalid reward selection'
+            ];
+            const action = { type: RECEIVE_CURRENT_USER };
+            
+            const result = backingsErrorsReducer(initialState, action);
+            
+            expect(result).toEqual([]);
+            expect(result).toHaveLength(0);
+        });
+
+        it('returns empty array even when no errors existed', () => {
+            const initialState = [];
+            const action = { type: RECEIVE_CURRENT_USER };
+            
+            const result = backingsErrorsReducer(initialState, action);
+            
+            expect(result).toEqual([]);
+        });
+
+        it('does not mutate the original state', () => {
+            const initialState = ['Error 1', 'Error 2'];
+            const action = { type: RECEIVE_CURRENT_USER };
+            
+            const result = backingsErrorsReducer(initialState, action);
+            
+            expect(result).not.toBe(initialState);
+            expect(initialState).toEqual(['Error 1', 'Error 2']);
+        });
+    });
+
     describe('default case', () => {
-        it('returns empty array for any unknown action', () => {
+        it('returns the state unchanged for unknown actions', () => {
             const initialState = ['Existing error'];
             
             const actions = [
@@ -141,22 +186,18 @@ describe('backingsErrorsReducer', () => {
             
             actions.forEach(action => {
                 const result = backingsErrorsReducer(initialState, action);
-                expect(result).toEqual([]);
+                expect(result).toBe(initialState);
+                expect(result).toEqual(['Existing error']);
             });
         });
 
-        it('returns empty array from any state for unknown actions', () => {
-            const testStates = [
-                [],
-                ['Error 1'],
-                ['Error 1', 'Error 2', 'Error 3'],
-                ['Payment processing failed']
-            ];
+        it('returns empty array for unknown actions when state is empty', () => {
+            const initialState = [];
             
-            testStates.forEach(initialState => {
-                const result = backingsErrorsReducer(initialState, { type: 'RANDOM_ACTION' });
-                expect(result).toEqual([]);
-            });
+            const result = backingsErrorsReducer(initialState, { type: 'RANDOM_ACTION' });
+            
+            expect(result).toBe(initialState);
+            expect(result).toEqual([]);
         });
     });
 
@@ -233,20 +274,5 @@ describe('backingsErrorsReducer', () => {
         const action5 = { type: RECEIVE_BACKING };
         const state5 = backingsErrorsReducer(state4, action5);
         expect(state5).toEqual([]);
-    });
-
-    it('always returns empty array for unknown actions regardless of initial state', () => {
-        // Test with various initial states
-        const testCases = [
-            { initialState: [], expected: [] },
-            { initialState: ['Error'], expected: [] },
-            { initialState: ['Error 1', 'Error 2', 'Error 3'], expected: [] },
-            { initialState: ['Payment processing failed'], expected: [] }
-        ];
-        
-        testCases.forEach(({ initialState, expected }) => {
-            const result = backingsErrorsReducer(initialState, { type: 'ANY_UNKNOWN_ACTION' });
-            expect(result).toEqual(expected);
-        });
     });
 });
