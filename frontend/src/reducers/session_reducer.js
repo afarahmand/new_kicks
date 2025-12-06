@@ -4,7 +4,7 @@ import {
   RECEIVE_SESSION_ERRORS
 } from '../actions/session_actions';
 
-const sessionReducer = (oldState = { currentUser: null, errors: [], loading: false }, action) => {
+const sessionReducer = (oldState = { currentUser: null, loading: false }, action) => {
   Object.freeze(oldState);
 
   switch(action.type) {
