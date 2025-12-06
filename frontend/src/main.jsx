@@ -9,7 +9,7 @@ import './stylesheets/application.css';
 import './stylesheets/google_font_modak.css';
 import './stylesheets/discover.css';
 import './stylesheets/home_page.css';
-import './stylesheets/navbar.css';
+import './stylesheets/nav_bar.css';
 import './stylesheets/project_form.css';
 import './stylesheets/project_show.css';
 import './stylesheets/reward_form.css';

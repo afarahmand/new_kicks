@@ -3,7 +3,7 @@ import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import DiscoverPage from './discover/discover_page';
 import HomePage from './home/home_page';
-import NavBar from './navbar/navbar';
+import NavBar from './nav_bar/nav_bar';
 import ProjectForm from './project/project_form';
 import ProjectShowPage from './project/project_show_page';
 import RewardForm from './reward/reward_form';
