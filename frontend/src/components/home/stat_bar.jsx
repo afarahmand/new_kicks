@@ -14,6 +14,7 @@ const StatBar = () => {
             </span>
           </div>
         </li>
+
         <li>
           <div>
             <span className="stat-bar-title">
@@ -24,6 +25,7 @@ const StatBar = () => {
             </span>
           </div>
         </li>
+
         <li>
           <div>
             <span className="stat-bar-title">
@@ -34,6 +36,7 @@ const StatBar = () => {
             </span>
           </div>
         </li>
+        
         <li>
           <div>
             <span className="stat-bar-title">
