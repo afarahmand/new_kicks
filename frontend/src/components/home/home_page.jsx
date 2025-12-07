@@ -1,47 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import HomePageItem from './home_page_item';
 import StatBar from './stat_bar';
 import TabBar from './tab_bar';
-
-import { fetchProjects } from '../../actions/project_actions';
+import HeroProjectGrid from './hero_project_grid';
 
 const HomePage = () => {
-    const categories = useSelector((state) => state.entities.categories);
-    const projects = useSelector((state) => state.entities.projects);
-    const dispatch = useDispatch();
-    const dispatchFetchProjects = () => dispatch(fetchProjects());
-
+    const categories = useSelector(state => state.entities.categories);
     const [chosenCategory, setChosenCategory] = useState(categories[1]);
-    const [displayedProjects, setDisplayedProjects] = useState([]);
 
-    useEffect(() => {
-        dispatchFetchProjects();
-        
-        return () => {};
-    }, []);
-
-    function selectCategory(category) {
-        return (e) => setChosenCategory(category);
-    }
-
-    if (Object.keys(projects).length === 0) {
-      return null;
-    }
-
-    // Determine which 5 projects will become displayedProjects based on selected tabs
-    const keys = Object.keys(projects);
-    let count = 0;
-    let i = 0;
-    while (count < 5 && i < keys.length) {
-      if (projects[keys[i]].category === chosenCategory) {
-        displayedProjects[count] = projects[keys[i]];
-        count++;
-      }
-      i++;
-    }
+    const selectCategory = category => (
+        e => setChosenCategory(category)
+    )
 
     return (
         <div>
@@ -62,25 +33,7 @@ const HomePage = () => {
                     <div className="content-header-text"></div>
                 </section>
 
-                <div className="content">
-                    <main className="featured-content left-content">
-                        <HomePageItem project={displayedProjects[0]} />
-                    </main>
-
-                    <aside className="right-content">
-                        <div className="project-list">
-                            <ul>
-                                {
-                                    Object.keys(displayedProjects).slice(1).map(id => (
-                                        <li key={id}>
-                                            <HomePageItem project={displayedProjects[id]} />
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
-                    </aside>
-                </div>
+                <HeroProjectGrid chosenCategory={chosenCategory} />
             </section>
         </div>
     )
