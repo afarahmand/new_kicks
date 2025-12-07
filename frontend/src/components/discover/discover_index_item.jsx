@@ -10,12 +10,15 @@ const DiscoverIndexItem = ({ project }) => {
           <img src={project.image_url}></img>
         </Link>
       </div>
+      
       <div className="discover-item-detail discover-item-middle">
         <Link to={linkHref}>
           <span className="project-title">{project.title}</span>
         </Link>
       </div>
+
       <div className="separating-bar"></div>
+
       <div className="discover-item-bottom">
         <span className="goal">
           ${project.funding_amount} funding goal
