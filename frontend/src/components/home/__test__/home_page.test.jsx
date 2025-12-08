@@ -172,7 +172,6 @@ describe('HomePage', () => {
             
             // Check what the actual chosenCategory is
             const heroGridProps = HeroProjectGrid.mock.calls[0][0];
-            console.log('chosenCategory:', heroGridProps.chosenCategory); // Debug
             
             // It should be "Art" since categories[1] on an object {1: "Art", ...} = "Art"
             expect(heroGridProps.chosenCategory).toBe("Art");
