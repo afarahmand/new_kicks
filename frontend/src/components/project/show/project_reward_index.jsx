@@ -14,11 +14,6 @@ const ProjectRewardIndex = ({ project }) => {
     const dispatch = useDispatch();
     const dispatchCreateBacking = backing => dispatch(createBacking(backing));
 
-    console.log('Component import paths:');
-    console.log('selectAlreadyBacked imported from:', require.resolve('../../selectors/already_backed'));
-    console.log('selectProjectRewards imported from:', require.resolve('../../selectors/project_rewards'));
-    console.log("currentUser: ", currentUser, "alreadyBacked: ", alreadyBacked, "projectRewards: ", projectRewards);
-
     if (currentUser) {
         if (currentUser.id === project.user_id) {
             return ( <div className="col-3 rewards"></div> )

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -126,9 +126,7 @@ const ProjectForm = () => {
         formType === 'new'  ? "Let's get started" : "Edit project"
     )
 
-    if (formType === 'update' && !projectFromStore) {
-        return null;
-    }
+    if (formType === 'update' && !projectFromStore) { return null; }
 
     return (
         <div className="project-form-page">
@@ -143,44 +141,42 @@ const ProjectForm = () => {
                 <ErrorIndex errors={errors} />
                 <ul>
                     <li>
-                    <div className="project-form-label-section">
-                        <h4 className="project-field-label">Project image</h4>
-                    </div>
-                    <div className="project-form-input-section">
-                        <img src={project.image_url} alt="Project preview" />
-                        <p>
-                        This is the first thing that people will see when
-                        they come across your project. Choose an image
-                        that's crisp and text-free.
-                        </p>
-                        <input
-                        type="text"
-                        value={project.image_url}
-                        onChange={update('image_url')}
-                        className="project-input"
-                        />
-                    </div>
+                        {renderLabelSection("Project image")}
+                        <div className="project-form-input-section">
+                            <img src={project.image_url} alt="Project preview" />
+                            <p>
+                                This is the first thing that people will see when
+                                they come across your project. Choose an image
+                                that's crisp and text-free.
+                            </p>
+                            <input
+                                type="text"
+                                value={project.image_url}
+                                onChange={update('image_url')}
+                                className="project-input"
+                            />
+                        </div>
                     </li>
 
                     <li>
-                    {renderLabelSection("Project title")}
-                    <div className="project-form-input-section">
-                        <input
-                        type="text"
-                        value={project.title}
-                        onChange={update('title')}
-                        className="project-input"
-                        />
-                        <p>
-                        Our search looks through words from your project title
-                        and blurb, so make them clear and descriptive of what
-                        you're making.
-                        </p>
-                        <p>
-                        These words will help people find your project, so
-                        choose them wisely! Your name will be searchable too.
-                        </p>
-                    </div>
+                        {renderLabelSection("Project title")}
+                        <div className="project-form-input-section">
+                            <input
+                                type="text"
+                                value={project.title}
+                                onChange={update('title')}
+                                className="project-input"
+                            />
+                            <p>
+                                Our search looks through words from your project title
+                                and blurb, so make them clear and descriptive of what
+                                you're making.
+                            </p>
+                            <p>
+                                These words will help people find your project, so
+                                choose them wisely! Your name will be searchable too.
+                            </p>
+                        </div>
                     </li>
 
                     <li>
@@ -203,9 +199,9 @@ const ProjectForm = () => {
                         {renderLabelSection("Description")}
                         <div className="project-form-input-section">
                             <textarea
-                            onChange={update('description')}
-                            className="project-input description"
-                            value={project.description}
+                                onChange={update('description')}
+                                className="project-input description"
+                                value={project.description}
                             />
                         </div>
                     </li>
@@ -214,9 +210,9 @@ const ProjectForm = () => {
                         {renderLabelSection("Category")}
                         <div className="project-form-input-section">
                             <select
-                            onChange={update('category')}
-                            className="project-input"
-                            value={project.category}
+                                onChange={update('category')}
+                                className="project-input"
+                                value={project.category}
                             >
                             {categories && Object.keys(categories).map((id) => (
                                 <option key={id} value={categories[id]}>
