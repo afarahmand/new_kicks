@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { createBacking } from '../../actions/backing_actions';
-import RewardIndexDisplayItem from '../reward/reward_index_display_item';
+import { createBacking } from '../../../actions/backing_actions';
+import RewardIndexDisplayItem from '../../reward/reward_index_display_item';
 
-import selectAlreadyBacked from '../../selectors/already_backed';
-import selectProjectRewards from '../../selectors/project_rewards';
+import selectAlreadyBacked from '../../../selectors/already_backed';
+import selectProjectRewards from '../../../selectors/project_rewards';
 
 const ProjectRewardIndex = ({ project }) => {
     const currentUser = useSelector(state => state.session.currentUser);
@@ -13,6 +13,11 @@ const ProjectRewardIndex = ({ project }) => {
 
     const dispatch = useDispatch();
     const dispatchCreateBacking = backing => dispatch(createBacking(backing));
+
+    console.log('Component import paths:');
+    console.log('selectAlreadyBacked imported from:', require.resolve('../../selectors/already_backed'));
+    console.log('selectProjectRewards imported from:', require.resolve('../../selectors/project_rewards'));
+    console.log("currentUser: ", currentUser, "alreadyBacked: ", alreadyBacked, "projectRewards: ", projectRewards);
 
     if (currentUser) {
         if (currentUser.id === project.user_id) {
