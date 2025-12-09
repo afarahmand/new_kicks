@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 
-const SearchIndexItem = ({ project }) => {
-  let linkHref = `/projects/${project.id}`;
-  return (
+const SearchIndexItem = ({ project }) => (
+  (
     <div>
-      <Link to={linkHref}>
+      <Link to={`/projects/${project.id}`}>
         <div className="search-result">
           <img src={project.image_url}></img>
           <div className="project-detail">
@@ -18,21 +17,7 @@ const SearchIndexItem = ({ project }) => {
         </div>
       </Link>
     </div>
-  );
-};
+  )
+)
 
 export default SearchIndexItem;
-
-
-
-
-// <Link to={linkHref}>
-//   <img src={project.image_url}></img>
-//   <span className="project-title">{project.title}</span>
-//   <span className="project-creator">{project.creator}</span>
-//   <div>progress bar</div>
-//   <div>money pledged</div>
-//   <div>percent funded</div>
-//   <div>days to go</div>
-//   <div>{project.category}</div>
-// </Link>

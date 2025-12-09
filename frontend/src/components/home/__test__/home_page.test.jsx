@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { HashRouter, Link } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import HomePage from '../home_page';
 import StatBar from '../stat_bar';
@@ -177,68 +177,6 @@ describe('HomePage', () => {
             expect(heroGridProps.chosenCategory).toBe("Art");
         });
     });
-    //     it('passes selectCategory function to TabBar', () => {
-    //         renderHomePage();
-            
-    //         // TabBar should receive a selectCategory function
-    //         expect(TabBar).toHaveBeenCalledWith(
-    //             expect.objectContaining({
-    //                 categories: mockCategories,
-    //                 selectCategory: expect.any(Function)
-    //             }),
-    //             expect.anything()
-    //         );
-    //     });
-
-    //     it('selectCategory function updates chosenCategory', () => {
-    //         renderHomePage();
-    
-    //         // TabBar mock has a button that calls selectCategory(categories[1]) when clicked
-    //         // categories[1] is "Art" in our mock
-    //         const tabButton = screen.getByTestId('tab-button');
-    //         fireEvent.click(tabButton);
-            
-    //         // Check that HeroProjectGrid was called with "Art"
-    //         const hasArtCall = HeroProjectGrid.mock.calls.some(call => 
-    //             call[0].chosenCategory === "Art"
-    //         );
-    //         expect(hasArtCall).toBe(true);
-    //         // renderHomePage();
-            
-    //         // // Get the selectCategory function passed to TabBar
-    //         // const tabBarProps = TabBar.mock.calls[0][0];
-    //         // const selectCategory = tabBarProps.selectCategory;
-            
-    //         // // Call selectCategory with a new category
-    //         // const newCategory = "Film";
-    //         // selectCategory(newCategory)(); // Note: returns a function, so we call it
-            
-    //         // // Re-render to see the updated state
-    //         // renderHomePage();
-            
-    //         // // Check that HeroProjectGrid was called with Film
-    //         // expect(HeroProjectGrid).toHaveBeenCalled();
-            
-    //         // // Get the last call and check its props
-    //         // const lastCall = HeroProjectGrid.mock.calls[HeroProjectGrid.mock.calls.length - 1];
-    //         // console.log("lastCaell: ", lastCall);
-    //         // expect(lastCall[0]).toMatchObject({
-    //         //     chosenCategory: "Film"
-    //         // });
-    //     });
-
-    //     it('clicking TabBar button updates chosenCategory', () => {
-    //         renderHomePage();
-            
-    //         // Find and click the test button in our TabBar mock
-    //         const tabButton = screen.getByTestId('tab-button');
-    //         fireEvent.click(tabButton);
-            
-    //         // TabBar's selectCategory should have been called with categories[1] ("Art")
-    //         // But since our mock doesn't actually call the real function, this is more
-    //         // of an integration test pattern
-    //     });
-    // });
 
     describe('title bar section', () => {
         it('has a discover more link with real Link component', () => {

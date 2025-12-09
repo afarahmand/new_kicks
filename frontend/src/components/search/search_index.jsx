@@ -4,13 +4,13 @@ const SearchIndex = ({ projects }) => {
   return (
     <section className="project-index-display search-index">
       <ul>
-      {
-        Object.keys(projects).map(id => (
-          <li key={id}>
-            <SearchIndexItem key={id} project={projects[id]} />
-          </li>
-        ))
-      }
+        {
+          Object.keys(projects).map(id => (
+            <li key={id}>
+              <SearchIndexItem key={id} project={projects[id]} />
+            </li>
+          ))
+        }
       </ul>
     </section>
   );
