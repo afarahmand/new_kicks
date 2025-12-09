@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import ErrorIndex from '../shared/error_index';
-import NavLink from './navlink';
+import NavLink from './nav_link';
 import TopText from './top_text';
 
 import {
