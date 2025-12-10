@@ -55,7 +55,12 @@ const SessionForm = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const user = Object.assign({}, form);
+    let user;
+    if (formType === 'Sign up') {
+      user = Object.assign({}, form);
+    } else {
+      user = { email: form.email, password: form.password };
+    }
     processForm(user);
   }
   

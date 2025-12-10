@@ -6,7 +6,7 @@ const ErrorIndex = ({ errors }) => {
             <ul>
                 {
                     errors.map((error, i) => (
-                        <li key={`error-${i}`}>{error}</li>
+                        <li key={`error-${i}`} data-testid="error-item">{error}</li>
                     ))
                 }
             </ul>

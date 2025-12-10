@@ -1,7 +1,7 @@
 const TopText = ({ formType }) => (
     (
         <div className="signin-form-top-text">
-            <h2>
+            <h2 data-testid="top-text">
                 {
                     formType === "Sign up" ?
                         "Sign up" :
