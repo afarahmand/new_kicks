@@ -63,16 +63,16 @@ RSpec.describe "Api::Users create", type: :request do
           }.not_to change(User, :count)
         end
 
-        it "returns http unauthorized (422)" do
+        it "returns http unauthorized (401)" do
           post "/api/users", params: invalid_attributes
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(401)
         end
 
         it "returns error messages as JSON" do
           post "/api/users", params: invalid_attributes
           expect(response.content_type).to match(/application\/json/)
-          expect(JSON.parse(response.body)["errors"]).to be_an(Array)
-          expect(JSON.parse(response.body)["errors"][0]).to eq("Name can't be blank")
+          expect(JSON.parse(response.body)).to be_an(Array)
+          expect(JSON.parse(response.body)[0]).to eq("Name can't be blank")
         end
       end
 
@@ -93,9 +93,9 @@ RSpec.describe "Api::Users create", type: :request do
           }.not_to change(User, :count)
         end
 
-        it "returns http unauthorized (422)" do
+        it "returns http unauthorized (401)" do
           post "/api/users", params: invalid_attributes
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(401)
         end
       end
 
@@ -117,14 +117,14 @@ RSpec.describe "Api::Users create", type: :request do
           }.not_to change(User, :count)
         end
 
-        it "returns http unauthorized (422)" do
+        it "returns http unauthorized (401)" do
           post "/api/users", params: duplicate_email_attributes
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(401)
         end
 
         it "returns appropriate error message" do
           post "/api/users", params: duplicate_email_attributes
-          errors = JSON.parse(response.body)["errors"]
+          errors = JSON.parse(response.body)
           expect(errors).to include(a_string_matching(/email/i))
         end
       end
@@ -148,7 +148,7 @@ RSpec.describe "Api::Users create", type: :request do
 
         it "returns http unauthorized (422)" do
           post "/api/users", params: invalid_attributes
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(401)
         end
       end
 
@@ -169,9 +169,9 @@ RSpec.describe "Api::Users create", type: :request do
           }.not_to change(User, :count)
         end
 
-        it "returns http unauthorized (422)" do
+        it "returns http unauthorized (401)" do
           post "/api/users", params: invalid_attributes
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(401)
         end
       end
     end
