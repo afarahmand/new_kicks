@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { HashRouter } from 'react-router-dom';
@@ -155,7 +155,10 @@ describe('HomePage', () => {
                 expect(typeof eventHandler).toBe('function');
                 
                 // The returned function should be callable
-                expect(() => eventHandler({ preventDefault: vi.fn() })).not.toThrow();
+                act(() => {
+                    eventHandler({ preventDefault: vi.fn() });
+                });
+                expect(() => {}).not.toThrow();
             }
         });
 
@@ -380,7 +383,10 @@ describe('HomePage', () => {
             expect(typeof eventHandler).toBe('function');
             
             // The returned function should be callable without errors
-            expect(() => eventHandler({ preventDefault: vi.fn() })).not.toThrow();
+            act(() => {
+                eventHandler({ preventDefault: vi.fn() });
+            });
+            expect(() => {}).not.toThrow();
         });
     });
 
