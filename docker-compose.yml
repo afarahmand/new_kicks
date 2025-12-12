@@ -30,6 +30,7 @@ services:
       DATABASE_USERNAME: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       RAILS_ENV: ${RAILS_ENV}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
   
   frontend:
     build: ./frontend

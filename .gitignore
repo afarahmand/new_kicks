@@ -39,7 +39,10 @@ backend/.byebug_history
 
 # Ignore key files for decrypting credentials and more.
 /backend/config/*.key
+backend/config/*.key
+backend/config/master.key
 backend/config/credentials/*.key
+backend/config/credentials.yml.enc
 
 # - - - - Frontend (React) ignores - - - - 
 frontend/node_modules
