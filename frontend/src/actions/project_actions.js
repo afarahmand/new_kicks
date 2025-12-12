@@ -1,4 +1,5 @@
 import * as ProjectApiUtil from '../utils/project_api_util';
+import { receiveBackings } from '../features/entities/backings/backings_slice';
 
 export const RECEIVE_ALL_PROJECTS = "RECEIVE_ALL_PROJECTS";
 export const RECEIVE_PROJECT = "RECEIVE_PROJECT";
@@ -13,7 +14,7 @@ const receiveAllProjects = projects => ({
 
 const receiveProject = project => ({
   type: RECEIVE_PROJECT,
-  backings: project.backings,
+  // backings: project.backings,
   project: project.project,
   rewards: project.rewards,
   user: project.user
@@ -38,7 +39,13 @@ export const fetchProjects = () => dispatch => (
 
 export const fetchProject = projectId => dispatch => (
   ProjectApiUtil.fetchProject(projectId).then(
-    project => dispatch(receiveProject(project)),
+    project => {
+      dispatch(receiveProject(project));
+
+      if (project.backings) {
+        dispatch(receiveBackings(project.backings));
+      }
+    },
     err => dispatch(receiveProjectErrors(err))
   )
 );
@@ -52,7 +59,13 @@ export const createProject = project => dispatch => (
 
 export const updateProject = project => dispatch => (
   ProjectApiUtil.updateProject(project).then(
-    dbProject => dispatch(receiveProject(dbProject)),
+    dbProject => {
+      dispatch(receiveProject(dbProject));
+
+      if (dbProject.backings) {
+        dispatch(receiveBackings(dbProject.backings));
+      }
+    },
     err => dispatch(receiveProjectErrors(err))
   )
 );

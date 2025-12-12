@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { createBacking } from '../../../actions/backing_actions';
+import { createBacking } from '../../../features/entities/backings/backings_slice';
 import RewardIndexDisplayItem from '../../reward/reward_index_display_item';
 
 import selectAlreadyBacked from '../../../selectors/already_backed';

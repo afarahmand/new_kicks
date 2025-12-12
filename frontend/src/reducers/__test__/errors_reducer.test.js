@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
 import errorsReducer from '../errors_reducer';
-import backingsErrorsReducer from '../errors/backings_errors_reducer';
+import backingsErrorsReducer from '../../features/errors/backings_errors_slice';
 import projectsErrorsReducer from '../errors/projects_errors_reducer';
 import rewardsErrorsReducer from '../errors/rewards_errors_reducer';
 import sessionErrorsReducer from '../errors/session_errors_reducer';
 
 // Mock child reducers to test combineReducers behavior
-vi.mock('../errors/backings_errors_reducer', () => ({
+vi.mock('../../features/errors/backings_errors_slice', () => ({
     default: vi.fn((state = []) => state)
 }));
 
