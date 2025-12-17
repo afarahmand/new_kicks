@@ -3,52 +3,62 @@ services:
     container_name: new_kicks_db
     image: postgres:18-alpine
     environment:
+      POSTGRES_DB: ${DATABASE_DB}
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-  api:
+  backend:
     container_name: new_kicks_be
     build: ./backend
-    command: sh -c "rm -f tmp/pids/server.pid && rails db:create db:migrate && rails server -b 0.0.0.0"
-    volumes:
-      - ./backend:/app
-      - gems:/usr/local/bundle
-    ports:
-      - "3000:3000"
+    command: sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
-      DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_USERNAME: ${DATABASE_USER}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      RAILS_ENV: ${RAILS_ENV}
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      DATABASE_DB=${DATABASE_DB}
+      DATABASE_HOST=${DATABASE_HOST}
+      DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      DATABASE_PORT=${DATABASE_PORT}
+      DATABASE_USER=${DATABASE_USER}
+      DEBUG=${DEBUG}
+      DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      SECRET_KEY=${SECRET_KEY}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
   
   frontend:
     container_name: new_kicks_fe
     build: ./frontend
+    depends_on:
+      api:
+        condition: service_healthy
     environment:
       - KICKS_API_BASE_URL=${KICKS_API_BASE_URL}
+    env_file:
+      - .env
+    ports:
+      - "5173:5173"
+    stdin_open: true
+    tty: true
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    ports:
-      - "5173:5173"
-    depends_on:
-      - api
-    stdin_open: true
-    tty: true
 
 volumes:
   postgres_data:
-  gems:

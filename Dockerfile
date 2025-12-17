@@ -1,22 +1,32 @@
-FROM ruby:3.4.7-alpine
-
-# Install dependencies
-RUN apt-get update -qq && apt-get install -y \
-  postgresql-client \
-  nodejs \
-  && rm -rf /var/lib/apt/lists/*
-
+# Use the official Python runtime image
+FROM python:3.14.2-slim 
+ 
+# Create the app directory
+RUN mkdir /app
+ 
+# Set the working directory inside the container
 WORKDIR /app
-
-# Install gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
-
-# Copy the Rails app
-COPY . .
-
-# Expose port
-EXPOSE 3000
-
-# Start the Rails server
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ 
+# Set environment variables 
+# Prevents Python from writing pyc files to disk
+ENV PYTHONDONTWRITEBYTECODE=1
+#Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED=1 
+ 
+# Upgrade pip
+RUN pip install --upgrade pip 
+ 
+# Copy the Django project  and install dependencies
+COPY requirements.txt  /app/
+ 
+# run this command to install all dependencies 
+RUN pip install --no-cache-dir -r requirements.txt
+ 
+# Copy the Django project to the container
+COPY . /app/
+ 
+# Expose the Django port
+EXPOSE 8000
+ 
+# Run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

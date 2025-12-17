@@ -19,3 +19,29 @@ Plan
     
 7) create new BE Python API
 8) Transition to TypeScript?
+
+
+
+
+
+
+Plan for building py_kicks api
+
+I) Users and Sessions
+    a. user create, show, and associated views
+        i. user table migration
+        ii. user model
+        iii. controllers/views
+    b. auth
+        i. application controller
+    c. session create, destroy, show, and associated views
+        i. model updates
+        ii. controllers/views
+II) Projects
+    a. projects all actions
+        i. migration
+        ii. models
+        iii. cv
+III) Rewards
+IV) Backings
+V) Search and Discovery
