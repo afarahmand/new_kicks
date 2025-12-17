@@ -45,3 +45,5 @@ II) Projects
 III) Rewards
 IV) Backings
 V) Search and Discovery
+
+Last step) update Dockerfiles (backend and root)
