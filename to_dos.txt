@@ -18,7 +18,7 @@ Plan
     - combine actions and reducers into slices (for backings only)
     
 7) create new BE Python API
-8) Transition to TypeScript?
+8) Transition to TypeScript? no
 
 
 
@@ -27,23 +27,30 @@ Plan
 
 Plan for building py_kicks api
 
-I) Users and Sessions
-    a. user create, show, and associated views
-        i. user table migration
-        ii. user model
-        iii. controllers/views
-    b. auth
-        i. application controller
-    c. session create, destroy, show, and associated views
-        i. model updates
-        ii. controllers/views
+I) Users and Sessions (done)
+    - use JWT + local sessionStorage to store session key client-side; sessionStorage persistent upon page refresh
+    a. user create, show, and associated views (done)
+    b. auth (done)
+    c. session create, destroy, show, and associated views (done)
+    
+    d. FE JWT changes (done)
+        i. update FE to sign in and store refresh and access_token (done)
+            1. context already logged in (has stored access_token)
+                i. actually signed in server side
+                ii. not actually signed in server side
+            2. not signed in
+        ii. attached access token to all requests (done)
+        iii. attached refresh token to sign out request (done)
 II) Projects
     a. projects all actions
         i. migration
         ii. models
         iii. cv
+    b. user show action
+        i. created and backed projects serializer
 III) Rewards
 IV) Backings
 V) Search and Discovery
 
-Last step) update Dockerfiles (backend and root)
+- actually do short cycle access tokens and long-cycle refresh tokens?
+- set expiration times in settings for JWT?

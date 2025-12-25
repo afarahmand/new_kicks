@@ -13,9 +13,10 @@ export const signin = user => (
   })
 )
 
-export const signout = () => (
+export const signout = refreshToken => (
   fetchWrapper('api/session', {
     method: 'DELETE',
+    body: JSON.stringify({ refresh: refreshToken })
   })
 )
 

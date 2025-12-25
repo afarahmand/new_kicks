@@ -18,34 +18,57 @@ const loading = () => ({
   type: LOADING
 });
 
+const handleGetCurrentUser = (currentUser, dispatch) => {
+  if (Object.keys(currentUser).length > 2) {
+    return dispatch(receiveCurrentUser(currentUser));
+  }
+
+  if (sessionStorage.getItem("accessToken")) {
+    sessionStorage.removeItem("accessToken")
+  }
+
+  return dispatch(receiveCurrentUser(null));
+}
+
+const handleSignin = (userAccessData, dispatch) => {
+  sessionStorage.setItem("accessToken", userAccessData["token"]);
+  sessionStorage.setItem("refreshToken", userAccessData["refresh"]);
+  const currentUser = userAccessData["user"];
+
+  return dispatch(receiveCurrentUser(currentUser));
+}
+
+const handleSignout = dispatch => {
+  sessionStorage.removeItem("accessToken");
+  sessionStorage.removeItem("refreshToken");
+
+  return dispatch(receiveCurrentUser(null));
+}
+
 export const getCurrentUser = () => dispatch => {
   dispatch(loading());
 
   return SessionApiUtil.getCurrentUser().then(
-    currentUser => {
-      if (Object.keys(currentUser).length > 2) {
-        return dispatch(receiveCurrentUser(currentUser));
-      } else {
-        return dispatch(receiveCurrentUser(null));
-      }
-    },
+    currentUser => handleGetCurrentUser(currentUser, dispatch),
     err => dispatch(receiveSessionErrors(err))
   )
 }
 
 export const signin = user => dispatch => (
   SessionApiUtil.signin(user).then(
-    currentUser => dispatch(receiveCurrentUser(currentUser)),
+    response => handleSignin(response, dispatch),
     err => (dispatch(receiveSessionErrors(err)))
   )
 )
 
-export const signout = () => dispatch => (
-  SessionApiUtil.signout().then(
-    () => dispatch(receiveCurrentUser(null)),
+export const signout = () => dispatch => {
+  const refreshToken = sessionStorage.getItem("refreshToken");
+
+  return SessionApiUtil.signout(refreshToken).then(
+    () => handleSignout(dispatch),
     err => dispatch(receiveSessionErrors(err))
   )
-)
+}
 
 export const signup = user => dispatch => (
   SessionApiUtil.signup(user).then(
