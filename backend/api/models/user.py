@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from ..mixins.timestamps import TimestampMixin
+from ..mixins.validate_on_save import ValidateOnSaveMixin
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -12,7 +13,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-class User(AbstractBaseUser, TimestampMixin):
+class User(TimestampMixin, ValidateOnSaveMixin, AbstractBaseUser):
     REQUIRED_FIELDS = ['name']
     USERNAME_FIELD = 'email'
 
