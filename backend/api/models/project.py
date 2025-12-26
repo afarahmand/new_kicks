@@ -9,7 +9,7 @@ from ..mixins.timestamps import TimestampMixin
 from ..mixins.validate_on_save import ValidateOnSaveMixin
 
 def validate_max_date(value):
-    max_date = timezone.now() + timedelta(years=1)
+    max_date = timezone.now() + timedelta(days=365)
 
     if value > max_date:
         raise ValidationError(f"The funding end date must be less than one year away")
