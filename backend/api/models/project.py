@@ -1,7 +1,7 @@
 from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinLengthValidator, MinValueValidator
-from django.db import models
+from django.db import connection, models
 from django.utils import timezone
 
 from .user import User
@@ -60,6 +60,71 @@ class Project(TimestampMixin, ValidateOnSaveMixin, models.Model):
             models.Index(fields=['funding_amount']),
             models.Index(fields=['funding_end_date']),
         ]
+
+    @property
+    def backings(self):
+        from .backing import Backing
+        return Backing.objects.filter(reward__project=self)
+
+    @property
+    def creator(self):
+        return self.user
+
+    def percentage_funded(self):
+        """
+        Calculate percentage funded for a specific project using raw SQL
+        """
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT SUM(backings_per_reward) AS amount_funded
+                FROM (
+                    SELECT project_id, COUNT(api_backing.id)*api_reward.amount AS backings_per_reward
+                    FROM api_backing
+                    INNER JOIN api_reward ON api_backing.reward_id=api_reward.id
+                    INNER JOIN api_project ON api_reward.project_id=api_project.id
+                    GROUP BY api_reward.id
+                    HAVING project_id=%s
+                ) AS derivedTable
+            """, [self.id])
+
+            amount_funded = cursor.fetchone()[0]
+
+        if self.funding_amount and amount_funded:
+            percentage = (amount_funded / self.funding_amount) * 100
+            return round(percentage, 2)
+        return 0
+    
+    @classmethod
+    def projects_percentage_funded(cls):
+        """
+        Simplified version assuming funding_amount is always > 0
+        """
+        # Get funded amounts
+        funded_dict = {}
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT SUM(backings_per_reward) AS amount_funded, project_id
+                FROM (
+                    SELECT project_id, COUNT(api_backing.id)*api_reward.amount AS backings_per_reward
+                    FROM api_backing
+                    INNER JOIN api_reward ON api_backing.reward_id=api_reward.id
+                    GROUP BY api_reward.id
+                ) AS derivedTable
+                GROUP BY project_id
+            """)
+            
+            for amount, project_id in cursor.fetchall():
+                funded_dict[project_id] = float(amount or 0)
+        
+        # Calculate percentages for all projects
+        result = {}
+        for project in cls.objects.all():
+            amount_funded = funded_dict.get(project.id, 0.0)
+            # funding_amount must be > 0
+            percentage = (100 * amount_funded) / float(project.funding_amount)
+            result[project.id] = round(percentage, 2)
+        
+        return result
     
     def __str__(self):
         return f"{self.id} - {self.title}"

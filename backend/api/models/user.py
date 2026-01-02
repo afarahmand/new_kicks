@@ -28,5 +28,15 @@ class User(TimestampMixin, ValidateOnSaveMixin, AbstractBaseUser):
             models.Index(fields=['email']),
         ]
 
+    @property
+    def backed_projects(self):
+        from .project import Project
+        return Project.objects.filter(reward__backing__user=self).distinct()
+    
+    @property
+    def rewards(self):
+        from .reward import Reward
+        return Reward.objects.filter(backing__user=self)
+
     def __str__(self):
         return f"{self.name} - {self.email}"

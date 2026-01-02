@@ -28,29 +28,20 @@ Plan
 Plan for building py_kicks api
 
 I) Users and Sessions (done)
-    - use JWT + local sessionStorage to store session key client-side; sessionStorage persistent upon page refresh
-    a. user create, show, and associated views (done)
-    b. auth (done)
-    c. session create, destroy, show, and associated views (done)
-    
-    d. FE JWT changes (done)
-        i. update FE to sign in and store refresh and access_token (done)
-            1. context already logged in (has stored access_token)
-                i. actually signed in server side
-                ii. not actually signed in server side
-            2. not signed in
-        ii. attached access token to all requests (done)
-        iii. attached refresh token to sign out request (done)
+
 II) Projects
     a. projects all actions
-        i. migration
-        ii. models
-        iii. cv
+        i. migration (done)
+        ii. models (done)
+        iii. c\v
     b. user show action
         i. created and backed projects serializer
-III) Rewards
-IV) Backings
-V) Search and Discovery
+III) Unit testing - all mixins & models (done)
+IV) Rewards Views
+V) Backings Views
+VI) Search and Discovery
+VII) Misc
+    a. User Show action
 
 - actually do short cycle access tokens and long-cycle refresh tokens?
 - set expiration times in settings for JWT?

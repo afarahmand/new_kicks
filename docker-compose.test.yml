@@ -1,7 +1,9 @@
 services:
   frontend-test:
+    container_name: frontend_test
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -13,9 +15,52 @@ services:
   frontend:
     profiles:
       - dev
-  api:
+  backend:
     profiles:
       - dev
   db:
     profiles:
       - dev
+
+  db_test:
+    container_name: db_test
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d test_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend_test:
+    container_name: backend_test
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && pytest"
+    depends_on:
+      db_test:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=db_test
+      - DATABASE_URL=postgresql://test_user:test_password@db_test:5432/test_db
+      - DATABASE_NAME=test_db
+      - DATABASE_PASSWORD=test_password
+      - DATABASE_USER=test_user
+      - DJANGO_SECRET_KEY=test-key
+      - DJANGO_SETTINGS_MODULE=core.settings
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./backend:/app
+    
+
+volumes:
+  test_postgres_data:

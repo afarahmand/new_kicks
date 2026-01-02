@@ -21,16 +21,24 @@ Docker
 
 * How to run the test suite
 
+> FULL STACK
+
+runs both frontend and backend tests
+`docker-compose -f docker-compose.test.yml up --abort-on-container-exit`
+
 > BACKEND
 
-Run all tests once
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec`
+migrate test DB
+`docker-compose -f docker-compose.test.yml run backend_test python manage.py migrate`
+
+run all backend tests at once
+`docker-compose -f docker-compose.test.yml up backend_test --abort-on-container-exit`
 
 Run only one test file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb`
+`docker-compose -f docker-compose.test.yml run backend_test pytest tests/api/models/test_user.py --abort-on-container-exit`
 
 Run only one test from file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb:<line_number>`
+`docker-compose -f docker-compose.test.yml run backend_test pytest tests/api/models/test_user.py::TestUserModel::test_email_unique --abort-on-container-exit`
 
 > FRONTEND
 

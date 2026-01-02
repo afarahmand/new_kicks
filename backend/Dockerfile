@@ -15,13 +15,17 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     curl \
     gcc \
+    libffi-dev \
     postgresql-client \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
+COPY requirements-test.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
+RUN pip install -r requirements-test.txt
 
 # Copy project files
 COPY . .
