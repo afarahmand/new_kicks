@@ -36,16 +36,7 @@ class UsersView(APIView):
             })
             
         except Exception as e:
-            error_data = {
-                'error': 'Failed to create user',
-                'details': str(e)
-            }
             return Response(
-                error_data,
+                [str(e)],
                 status=status.HTTP_401_UNAUTHORIZED
             )
-    
-    # def show(self, request):
-    #     # future route - path('users/<int:pk>/', TaskDetail.as_view(), name='task-detail'),
-    #     # future serializer - add user created and backed projects serializer
-    #     return None
