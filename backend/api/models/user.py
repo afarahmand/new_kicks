@@ -31,12 +31,12 @@ class User(TimestampMixin, ValidateOnSaveMixin, AbstractBaseUser):
     @property
     def backed_projects(self):
         from .project import Project
-        return Project.objects.filter(reward__backing__user=self).distinct()
+        return Project.objects.filter(rewards__backings__user=self).distinct()
     
     @property
     def rewards(self):
         from .reward import Reward
-        return Reward.objects.filter(backing__user=self)
+        return Reward.objects.filter(backings__user=self)
 
     def __str__(self):
         return f"{self.name} - {self.email}"

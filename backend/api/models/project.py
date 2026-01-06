@@ -19,7 +19,11 @@ def validate_min_date(value):
         raise ValidationError(f"The funding end date must be in the future")
 
 class Project(TimestampMixin, ValidateOnSaveMixin, models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='projects'
+    )
     category = models.CharField(
         choices=[
             ('Art', 'Art'),

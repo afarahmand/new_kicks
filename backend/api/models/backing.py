@@ -11,8 +11,16 @@ class Backing(TimestampMixin, ValidateOnSaveMixin, models.Model):
         if self.user == self.reward.project.user:
             raise ValidationError("User cannot be the same as the project owner.")
             
-    reward = models.ForeignKey(Reward, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reward = models.ForeignKey(
+        Reward,
+        on_delete=models.CASCADE,
+        related_name='backings'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='backings'
+    )
 
     class Meta:
         constraints = [

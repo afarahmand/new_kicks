@@ -6,7 +6,11 @@ from ..mixins.timestamps import TimestampMixin
 from ..mixins.validate_on_save import ValidateOnSaveMixin
 
 class Reward(TimestampMixin, ValidateOnSaveMixin, models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name='rewards'
+    )
     amount = models.IntegerField(
         validators=[MinValueValidator(1)]
     )
