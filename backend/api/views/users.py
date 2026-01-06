@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers.users import UserSerializer
+from ..serializers.user import UserSerializer
 
 class UsersView(APIView):
     """
@@ -16,7 +16,7 @@ class UsersView(APIView):
         """
         return [AllowAny()]
     
-    def create(self, request):
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
 
         if not serializer.is_valid():
