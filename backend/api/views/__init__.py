@@ -1,5 +1,5 @@
 from .health_check import HealthCheckView
-from .sessions import SessionView
+from .session import SessionView
 from .user import UserView
 from .users import UsersView
 

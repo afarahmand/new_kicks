@@ -1,6 +1,6 @@
 from django.urls import path
 from .views.health_check import HealthCheckView
-from .views.sessions import SessionView
+from .views.session import SessionView
 from .views.user import UserView
 from .views.users import UsersView
 

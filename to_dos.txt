@@ -34,7 +34,7 @@ II) Projects
         i. migration (done)
         ii. models (done)
         iii. c\v
-    b. user show action
+    b. user show action (done)
         i. created and backed projects serializer
 III) Unit testing - all mixins & models (done)
 IV) Rewards Views
