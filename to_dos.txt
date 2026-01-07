@@ -36,12 +36,13 @@ II) Projects
         iii. c\v (done)
     b. user show action (done)
 III) Unit testing - all mixins & models (done)
-IV) Rewards Views
+IV) Rewards Views (done)
 V) Backings Views (done)
 VI) Search and Discovery
 VII) Misc
     a. User Show action (done)
 
+- change pk to id in urls
 - request specs for all views!!!
 
 - actually do short cycle access tokens and long-cycle refresh tokens?

@@ -3,6 +3,7 @@ from .backings import BackingsView
 from .project import ProjectView
 from .projects import ProjectsView
 from .reward import RewardView
+from .rewards import RewardsView
 from .session import SessionView
 from .user import UserView
 from .users import UsersView
@@ -13,6 +14,7 @@ __all__ = [
     'ProjectView',
     'ProjectsView',
     'RewardView',
+    'RewardsView',
     'SessionView',
     'UserView',
     'UsersView',
