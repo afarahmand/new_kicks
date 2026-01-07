@@ -18,6 +18,11 @@ class ProjectSerializer(serializers.ModelSerializer):
             'user_id',
             'percentage_funded'
         ]
+        read_only_fields = ['user_id']
+
+    def create(self, validated_data):
+        validated_data['user_id'] = self.context['user_id']
+        return super().create(validated_data)
 
     def get_percentage_funded(self, obj):
         percentages = self.context.get('percentage_funded', {})
