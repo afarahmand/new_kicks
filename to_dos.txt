@@ -33,15 +33,16 @@ II) Projects
     a. projects all actions
         i. migration (done)
         ii. models (done)
-        iii. c\v
+        iii. c\v (done)
     b. user show action (done)
-        i. created and backed projects serializer
 III) Unit testing - all mixins & models (done)
 IV) Rewards Views
-V) Backings Views
+V) Backings Views (done)
 VI) Search and Discovery
 VII) Misc
-    a. User Show action
+    a. User Show action (done)
+
+- request specs for all views!!!
 
 - actually do short cycle access tokens and long-cycle refresh tokens?
 - set expiration times in settings for JWT?

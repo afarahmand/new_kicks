@@ -2,11 +2,12 @@ from rest_framework import serializers
 from ..models.user import User
 
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ['email', 'name', 'password']
+        fields = ['id', 'email', 'name', 'password']
 
     def create(self, validated_data):
         user = User.objects.create(
