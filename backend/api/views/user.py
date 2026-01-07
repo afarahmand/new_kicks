@@ -14,18 +14,6 @@ class UserView(APIView):
     Handle user management: show (GET)
     """
 
-    @staticmethod
-    def _get_serialized_projects_with_funded_percentage(projects, projects_percentage_funded):
-        serialized_projects_data = {}
-        for project in projects:
-            serializer_context = { 'percentage_funded': projects_percentage_funded[project.id] }
-            serialized_projects_data[str(project.id)] = ProjectSerializer(
-                project,
-                context=serializer_context
-            ).data
-
-        return serialized_projects_data
-
     def get_permissions(self):
         """
         GET (show) allows any user
@@ -41,11 +29,11 @@ class UserView(APIView):
         backings = user.backings.all()
         rewards = user.rewards.all()
 
-        backed_projects_data = self._get_serialized_projects_with_funded_percentage(
+        backed_projects_data = ProjectSerializer.serialize_projects_with_funded_percentage(
             backed_projects,
             projects_percentage_funded
         )
-        created_projects_data = self._get_serialized_projects_with_funded_percentage(
+        created_projects_data = ProjectSerializer.serialize_projects_with_funded_percentage(
             created_projects,
             projects_percentage_funded
         )
