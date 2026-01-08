@@ -8,6 +8,7 @@ from ..models.user import User
 from ..serializers.backing import BackingSerializer
 from ..serializers.project import ProjectSerializer
 from ..serializers.reward import RewardSerializer
+from ..serializers.user import UserSerializer
 
 class UserView(APIView):
     """
@@ -38,19 +39,22 @@ class UserView(APIView):
             projects_percentage_funded
         )
 
-        rewards_data = {
-            str(reward.id): RewardSerializer(reward).data 
-            for reward in rewards
-        }
-        
         backings_data = {
             str(backing.id): BackingSerializer(backing).data 
             for backing in backings
         }
+
+        rewards_data = {
+            str(reward.id): RewardSerializer(reward).data 
+            for reward in rewards
+        }
+
+        user_data = UserSerializer(user).data
         
         return Response({
             'backed_projects': backed_projects_data,
+            'backings': backings_data,
             'created_projects': created_projects_data,
             'rewards': rewards_data,
-            'backings': backings_data
+            'user': user_data
         })
