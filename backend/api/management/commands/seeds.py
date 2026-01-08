@@ -371,7 +371,7 @@ class Command(BaseCommand):
         user_ids = [user.id for user in users]
         
         for project in projects:
-            project_rewards = list(project.reward_set.all())
+            project_rewards = list(project.rewards.all())
             
             # Determine random funding level [0%, 30%, 70%]
             target_funding_perc = rand_funding_percentage()
