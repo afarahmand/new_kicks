@@ -161,7 +161,7 @@ class Project(TimestampMixin, ValidateOnSaveMixin, models.Model):
                 [param, param]
             )
         
-        return curr_query
+        return curr_query[:9]
 
     def __str__(self):
         return f"{self.id} - {self.title}"

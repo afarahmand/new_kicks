@@ -38,13 +38,13 @@ II) Projects
 III) Unit testing - all mixins & models (done)
 IV) Rewards Views (done)
 V) Backings Views (done)
-VI) Search and Discovery
+VI) Search and Discovery (done)
 VII) Misc
     a. User Show action (done)
+VIII) Request specs for all views
 
 - change pk to id in urls
 - fix dark mode?
-- request specs for all views!!!
 
 - actually do short cycle access tokens and long-cycle refresh tokens?
 - set expiration times in settings for JWT?
