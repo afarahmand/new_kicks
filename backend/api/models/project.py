@@ -147,6 +147,21 @@ class Project(TimestampMixin, ValidateOnSaveMixin, models.Model):
             curr_query = curr_query.order_by('-created_at')
         
         return curr_query[:9]
+    
+    @classmethod
+    def search_results(cls, query):
+        if query == "":
+            curr_query = Project.objects.all()
+        else:
+            param = '%' + query.lower() + '%'
+            curr_query = Project.objects.raw(
+                'SELECT * FROM api_project WHERE '
+                'LOWER(title) LIKE %s OR '
+                'LOWER(short_blurb) LIKE %s',
+                [param, param]
+            )
+        
+        return curr_query
 
     def __str__(self):
         return f"{self.id} - {self.title}"

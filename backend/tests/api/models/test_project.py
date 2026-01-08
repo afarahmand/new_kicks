@@ -228,7 +228,7 @@ class TestDiscoveryResults:
             funding_amount=1000,
             funding_end_date=timezone.now() + timedelta(days=5),
             image_url='https://example.com/img1.jpg',
-            short_blurb='Short blurb 1' * 2,
+            short_blurb='Short blurb 1' * 5,
             title='Art Project Alpha'
         )
         # funding_end_date is slightly later than project1 so it comes after if sorted by end date
@@ -239,7 +239,7 @@ class TestDiscoveryResults:
             funding_amount=5000,
             funding_end_date=timezone.now() + timedelta(days=10),
             image_url='https://example.com/img2.jpg',
-            short_blurb='Short blurb 2' * 2,
+            short_blurb='Short blurb 2' * 5,
             title='Fashion Project Beta'
         )
         # funding_amount is higher than project1 and project2, and end_date is later
@@ -250,7 +250,7 @@ class TestDiscoveryResults:
             funding_amount=2000,
             funding_end_date=timezone.now() + timedelta(days=15),
             image_url='https://example.com/img3.jpg',
-            short_blurb='Short blurb 3' * 2,
+            short_blurb='Short blurb 3' * 5,
             title='Film Project Gamma'
         )
         # funding_amount is lower than project1 allowing us to test sorting by funding_amount
@@ -261,7 +261,7 @@ class TestDiscoveryResults:
             funding_amount=500,
             funding_end_date=timezone.now() + timedelta(days=20),
             image_url='https://example.com/img4.jpg',
-            short_blurb='Short blurb 4' * 2,
+            short_blurb='Short blurb 4' * 5,
             title='Art Project Delta'
         )
         # Create more projects to exceed the 9 limit
@@ -273,7 +273,7 @@ class TestDiscoveryResults:
                 funding_amount=100 * i,
                 funding_end_date=timezone.now() + timedelta(days=i),
                 image_url=f'https://example.com/img{i}.jpg',
-                short_blurb=f'Short blurb {i}' * 2,
+                short_blurb=f'Short blurb {i}' * 5,
                 title=f'Game Project {i}'
             )
         return [project1, project2, project3, project4]
@@ -325,6 +325,103 @@ class TestDiscoveryResults:
         results = Project.discovery_results()
         assert len(results) == 0
         assert list(results) == []
+
+@pytest.mark.django_db
+class TestSearchResults:
+    """Test search_results class method functionality"""
+
+    @pytest.fixture
+    def setup_projects(self, user):
+        # Create test projects
+        # Create multiple projects for testing
+        project1 = Project.objects.create(
+            user=user,
+            category='Art',
+            description='A' * 200,
+            funding_amount=1000,
+            funding_end_date=timezone.now() + timedelta(days=5),
+            image_url='https://example.com/img1.jpg',
+            short_blurb='Short blurb 1' * 2,
+            title='Art Project Alpha'
+        )
+        # funding_end_date is slightly later than project1 so it comes after if sorted by end date
+        project2 = Project.objects.create(
+            user=user,
+            category='Fashion',
+            description='B' * 200,
+            funding_amount=5000,
+            funding_end_date=timezone.now() + timedelta(days=10),
+            image_url='https://example.com/img2.jpg',
+            short_blurb='Short blurb 2' * 2,
+            title='Fashion Project Beta'
+        )
+        # funding_amount is higher than project1 and project2, and end_date is later
+        project3 = Project.objects.create(
+            user=user,
+            category='Film',
+            description='C' * 200,
+            funding_amount=2000,
+            funding_end_date=timezone.now() + timedelta(days=15),
+            image_url='https://example.com/img3.jpg',
+            short_blurb='Short blurb 3' * 2,
+            title='Film Project Gamma'
+        )
+        # funding_amount is lower than project1 allowing us to test sorting by funding_amount
+        project4 = Project.objects.create(
+            user=user,
+            category='Art',
+            description='D' * 200,
+            funding_amount=500,
+            funding_end_date=timezone.now() + timedelta(days=20),
+            image_url='https://example.com/img4.jpg',
+            short_blurb='sustainable' * 2,
+            title='Art Project Delta'
+        )
+    
+    def test_empty_query_returns_all_projects(self, setup_projects):
+        """Empty query should return all projects"""
+        print("count: ", Project.objects.count())
+        print("search count: ", len(list(Project.search_results(""))))
+        results = list(Project.search_results(""))
+        assert len(results) == 4
+    
+    def test_search_by_title_case_insensitive(self, setup_projects):
+        """Should find projects by title, case insensitive"""
+        results = list(Project.search_results("gamma"))
+        assert len(results) == 1
+        assert results[0].title == "Film Project Gamma"
+    
+    def test_search_by_title_uppercase(self, setup_projects):
+        """Should handle uppercase queries"""
+        results = list(Project.search_results("GAMMA"))
+        assert len(results) == 1
+    
+    def test_search_by_short_blurb(self, setup_projects):
+        """Should find projects by short_blurb"""
+        results = list(Project.search_results("sustainable"))
+        assert len(results) == 1
+        assert results[0].title == "Art Project Delta"
+    
+    def test_search_matches_multiple_projects(self, setup_projects):
+        """Should return multiple matches"""
+        results = list(Project.search_results("art project"))
+        assert len(results) == 2
+    
+    def test_search_partial_match(self, setup_projects):
+        """Should match partial strings"""
+        results = list(Project.search_results("sustain"))
+        assert len(results) == 1
+        assert results[0].title == "Art Project Delta"
+    
+    def test_search_no_results(self, setup_projects):
+        """Should return empty queryset for no matches"""
+        results = list(Project.search_results("nonexistent"))
+        assert len(results) == 0
+    
+    def test_search_matches_title_or_blurb(self, setup_projects):
+        """Should match either title OR blurb"""
+        results = list(Project.search_results("urb"))
+        assert len(results) == 3
 
 @pytest.mark.django_db
 class TestProjectValidation:
