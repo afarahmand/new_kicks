@@ -43,6 +43,7 @@ VII) Misc
     a. User Show action (done)
 
 - change pk to id in urls
+- fix dark mode?
 - request specs for all views!!!
 
 - actually do short cycle access tokens and long-cycle refresh tokens?

@@ -215,6 +215,118 @@ class TestProjectsPercentageFunded:
         assert percentages[project2.id] == 50.0
 
 @pytest.mark.django_db
+class TestDiscoveryResults:
+    """Test discovery_results class method functionality"""
+
+    @pytest.fixture
+    def setup_projects(self, user):
+        # Create multiple projects for testing
+        project1 = Project.objects.create(
+            user=user,
+            category='Art',
+            description='A' * 200,
+            funding_amount=1000,
+            funding_end_date=timezone.now() + timedelta(days=5),
+            image_url='https://example.com/img1.jpg',
+            short_blurb='Short blurb 1' * 2,
+            title='Art Project Alpha'
+        )
+        # funding_end_date is slightly later than project1 so it comes after if sorted by end date
+        project2 = Project.objects.create(
+            user=user,
+            category='Fashion',
+            description='B' * 200,
+            funding_amount=5000,
+            funding_end_date=timezone.now() + timedelta(days=10),
+            image_url='https://example.com/img2.jpg',
+            short_blurb='Short blurb 2' * 2,
+            title='Fashion Project Beta'
+        )
+        # funding_amount is higher than project1 and project2, and end_date is later
+        project3 = Project.objects.create(
+            user=user,
+            category='Film',
+            description='C' * 200,
+            funding_amount=2000,
+            funding_end_date=timezone.now() + timedelta(days=15),
+            image_url='https://example.com/img3.jpg',
+            short_blurb='Short blurb 3' * 2,
+            title='Film Project Gamma'
+        )
+        # funding_amount is lower than project1 allowing us to test sorting by funding_amount
+        project4 = Project.objects.create(
+            user=user,
+            category='Art',
+            description='D' * 200,
+            funding_amount=500,
+            funding_end_date=timezone.now() + timedelta(days=20),
+            image_url='https://example.com/img4.jpg',
+            short_blurb='Short blurb 4' * 2,
+            title='Art Project Delta'
+        )
+        # Create more projects to exceed the 9 limit
+        for i in range(5, 15): # 10 additional projects
+            Project.objects.create(
+                user=user,
+                category='Games',
+                description=f'Description {i}' * 40,
+                funding_amount=100 * i,
+                funding_end_date=timezone.now() + timedelta(days=i),
+                image_url=f'https://example.com/img{i}.jpg',
+                short_blurb=f'Short blurb {i}' * 2,
+                title=f'Game Project {i}'
+            )
+        return [project1, project2, project3, project4]
+    
+    def test_discovery_results_default(self, setup_projects):
+        """Test default discovery_results (all categories, random sort, limit 9)"""
+        results = Project.discovery_results()
+        assert len(results) == 9 # Ensure limit of 9
+        # Cannot assert specific order for random, but ensure they are projects
+
+    def test_discovery_results_filter_by_category(self, setup_projects):
+        """Test discovery_results filters by category"""
+        results_art = Project.discovery_results(category='Art')
+        assert all(project.category == 'Art' for project in results_art)
+        assert len(results_art) <= 9 # Ensure limit of 9 is not exceeded
+
+    def test_discovery_results_sort_by_funding_goal(self, setup_projects):
+        """Test discovery_results sorts by funding goal (ascending) and gets max 9 projects"""
+        results = Project.discovery_results(sort='Funding Goal')
+        assert len(results) == 9  # Ensure limit of 9
+        sorted_funding_amounts = [p.funding_amount for p in results]
+        assert sorted_funding_amounts == sorted(sorted_funding_amounts)
+
+    def test_discovery_results_sort_by_end_date(self, setup_projects):
+        """Test discovery_results sorts by end date (ascending) and gets max 9 projects"""
+        results = Project.discovery_results(sort='End Date')
+        assert len(results) == 9 # Ensure limit of 9
+        # Convert to a comparable format for assertion
+        sorted_end_dates = [p.funding_end_date for p in results]
+        assert sorted_end_dates == sorted(sorted_end_dates)
+    
+    def test_discovery_results_sort_by_newest(self, setup_projects):
+        """Test discovery_results sorts by newest (descending created_at) and gets max 9 projects"""
+        results = Project.discovery_results(sort='Newest')
+        assert len(results) == 9 # Ensure limit of 9
+        sorted_newest = [p.created_at for p in results]
+        assert sorted_newest == sorted(sorted_newest, reverse=True)
+
+    def test_discovery_results_category_and_sort(self, setup_projects):
+        """Test discovery_results filters by category and sorts"""
+        results = Project.discovery_results(category='Art', sort='Funding Goal')
+        assert all(project.category == 'Art' for project in results)
+        assert len(results) <= 9 # Ensure limit of 9
+        sorted_funding_amounts = [p.funding_amount for p in results]
+        assert sorted_funding_amounts == sorted(sorted_funding_amounts)
+
+    def test_discovery_results_no_projects(self):
+        """Test discovery_results when no projects exist"""
+        results = Project.discovery_results()
+        assert len(results) == 0
+        assert list(results) == []
+
+@pytest.mark.django_db
 class TestProjectValidation:
     """Test project validation rules"""
 

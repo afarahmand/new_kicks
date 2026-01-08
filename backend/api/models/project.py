@@ -129,6 +129,24 @@ class Project(TimestampMixin, ValidateOnSaveMixin, models.Model):
             result[project.id] = round(percentage, 2)
         
         return result
-    
+
+    @classmethod
+    def discovery_results(cls, category: str="All", sort: str="Random"):
+        curr_query = Project.objects.all()
+        
+        if category != "All":
+            curr_query = curr_query.filter(category=category)
+        
+        if sort == "Random":
+            curr_query = curr_query.order_by('?')
+        elif sort == "Funding Goal":
+            curr_query = curr_query.order_by('funding_amount')
+        elif sort == "End Date":
+            curr_query = curr_query.order_by('funding_end_date')
+        elif sort == "Newest":
+            curr_query = curr_query.order_by('-created_at')
+        
+        return curr_query[:9]
+
     def __str__(self):
         return f"{self.id} - {self.title}"
