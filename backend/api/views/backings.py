@@ -18,8 +18,8 @@ class BackingsView(APIView):
         """
         return [IsAuthenticated()]
 
-    def post(self, request, project_pk, reward_pk):
-        reward = Reward.objects.filter(id=reward_pk).first()
+    def post(self, request, project_id, reward_id):
+        reward = Reward.objects.filter(id=reward_id).first()
         project = reward.project
 
         if not reward:

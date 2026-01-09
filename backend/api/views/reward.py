@@ -17,8 +17,8 @@ class RewardView(APIView):
         """
         return [IsAuthenticated()]
 
-    def delete(self, request, pk):
-        reward = Reward.objects.filter(id=pk).first()
+    def delete(self, request, project_id, reward_id):
+        reward = Reward.objects.filter(id=reward_id).first()
 
         if not reward:
             return Response(
@@ -41,8 +41,8 @@ class RewardView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-    def patch(self, request, pk):
-        reward = Reward.objects.filter(id=pk).first()
+    def patch(self, request, project_id, reward_id):
+        reward = Reward.objects.filter(id=reward_id).first()
 
         if not reward:
             return Response(

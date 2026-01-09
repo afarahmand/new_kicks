@@ -21,8 +21,8 @@ class UserView(APIView):
         """
         return [AllowAny()]
     
-    def get(self, request, pk):
-        user = get_object_or_404(User, id=pk)
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
         
         projects_percentage_funded = Project.projects_percentage_funded()
         backed_projects = user.backed_projects.all()

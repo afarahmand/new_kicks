@@ -50,8 +50,8 @@ class ProjectView(APIView):
             return [AllowAny()]
         return [IsAuthenticated()]
     
-    def delete(self, request, pk):
-        project = request.user.projects.filter(id=pk).first()
+    def delete(self, request, project_id):
+        project = request.user.projects.filter(id=project_id).first()
 
         if not project:
             return Response(
@@ -68,12 +68,12 @@ class ProjectView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
     
-    def get(self, request, pk):
-        project = get_object_or_404(Project, id=pk)
+    def get(self, request, project_id):
+        project = get_object_or_404(Project, id=project_id)
         return self._get_complex_json_response(project)
 
-    def patch(self, request, pk):
-        project = request.user.projects.filter(id=pk).first()
+    def patch(self, request, project_id):
+        project = request.user.projects.filter(id=project_id).first()
 
         if not project:
             return Response(

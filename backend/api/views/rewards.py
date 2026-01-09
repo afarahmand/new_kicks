@@ -17,27 +17,10 @@ class RewardsView(APIView):
         POST (create) requires logged-in user to be project creator
         """
         return [IsAuthenticated()]
-        projects = Project.objects.all()
-        users = User.objects.all()
 
-        projects_data = ProjectSerializer.serialize_projects_with_funded_percentage(
-            projects,
-            Project.projects_percentage_funded()
-        )
-
-        users_data = {
-            str(user.id): UserSerializer(user).data
-            for user in users
-        }
-
-        return Response({
-            'projects': projects_data,
-            'users': users_data
-        })
-
-    def post(self, request, pk):
-        project = request.user.projects.filter(id=pk).first()
-        existing_project = Project.objects.filter(id=pk).first()
+    def post(self, request, project_id):
+        project = request.user.projects.filter(id=project_id).first()
+        existing_project = Project.objects.filter(id=project_id).first()
 
         if not existing_project:
             return Response(
