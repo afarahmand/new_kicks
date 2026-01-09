@@ -49,7 +49,7 @@ class BackingsView(APIView):
 
         try:
             backing.save()
-            return Response(BackingSerializer(backing).data)
+            return Response({ 'backing': BackingSerializer(backing).data })
         except Exception as e:
             return Response(
                 [str(e)],
