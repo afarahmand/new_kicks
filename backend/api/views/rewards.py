@@ -33,13 +33,13 @@ class RewardsView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        serializer = RewardSerializer(data=request.data, context={'project_id': project.id})
+        serializer = RewardSerializer(data=request.data['reward'], context={'project_id': project.id})
     
         if serializer.is_valid():
             serializer.save() # create() method will handle user_id
             return Response({ 'reward': serializer.data })
         
         return Response(
-            serializer.errors,
+            [str(serializer.errors)],
             status=status.HTTP_404_NOT_FOUND
         )

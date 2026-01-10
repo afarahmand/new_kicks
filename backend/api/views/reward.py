@@ -32,14 +32,9 @@ class RewardView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        try:
-            reward.delete()
-            return Response({ 'reward': RewardSerializer(reward).data })
-        except Exception as e:
-            return Response(
-                [str(e)],
-                status=status.HTTP_404_NOT_FOUND
-            )
+        reward_data = RewardSerializer(reward).data
+        reward.delete()
+        return Response({ 'reward': reward_data })
 
     def patch(self, request, project_id, reward_id):
         reward = Reward.objects.filter(id=reward_id).first()
@@ -63,6 +58,6 @@ class RewardView(APIView):
             return Response({ 'reward': serializer.data })
         
         return Response(
-            serializer.errors,
+            [str(serializer.errors)],
             status=status.HTTP_404_NOT_FOUND
         )
