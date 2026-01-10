@@ -41,10 +41,10 @@ V) Backings Views (done)
 VI) Search and Discovery (done)
 VII) Misc
     a. User Show action (done)
-VIII) Request specs for all views
+VIII) Request specs for all views (done)
 
 - change pk to id in urls (done)
 - fix dark mode? (done)
 
 - actually do short cycle access tokens and long-cycle refresh tokens?
-- set expiration times in settings for JWT?
+- set expiration times in settings for JWT
