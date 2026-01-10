@@ -39,4 +39,4 @@ class User(TimestampMixin, ValidateOnSaveMixin, AbstractBaseUser):
         return Reward.objects.filter(backings__user=self)
 
     def __str__(self):
-        return f"{self.name} - {self.email}"
+        return f"{self.id} - {self.name} - {self.email}"

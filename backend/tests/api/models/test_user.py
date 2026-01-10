@@ -42,7 +42,7 @@ class TestUserModel:
     
     def test_str_representation(self, user):
         """Test string representation of user"""
-        expected = f"{user.name} - {user.email}"
+        expected = f"{user.id} - {user.name} - {user.email}"
         assert str(user) == expected
     
     def test_backed_projects_property(self, user, another_user, project):
