@@ -17,11 +17,11 @@ class UsersView(APIView):
         return [AllowAny()]
     
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data['user'])
 
         if not serializer.is_valid():
             return Response(
-                serializer.errors,
+                [str(serializer.errors)],
                 status=status.HTTP_400_BAD_REQUEST
             )
         

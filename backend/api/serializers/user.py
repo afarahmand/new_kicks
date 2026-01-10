@@ -10,13 +10,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'name', 'password', 'image_url']
 
     def create(self, validated_data):
-        user = User.objects.create(
-            email=validated_data['email'],
-            name=validated_data['name']
-        )
-        
-        # Django automatically hashes the password
-        user.set_password(validated_data['password'])
-        user.save()
-        
+        email = validated_data['email']
+        password = validated_data['password']
+        name = validated_data['name']
+        user = User.objects.create_user(email=email, password=password, name=name)
         return user

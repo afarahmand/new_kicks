@@ -72,7 +72,7 @@ export const signout = () => dispatch => {
 
 export const signup = user => dispatch => (
   SessionApiUtil.signup(user).then(
-    currentUser => dispatch(receiveCurrentUser(currentUser)),
+    currentUser => dispatch(receiveCurrentUser(null)),
     err => dispatch(receiveSessionErrors(err))
   )
 )

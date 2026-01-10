@@ -57,14 +57,8 @@ vi.mock('../../../actions/session_actions', () => ({
         type: 'RECEIVE_SESSION_ERRORS',
         errors: errors || []
     })),
-    signin: vi.fn().mockReturnValue({
-        type: 'SIGNIN',
-        user: {}
-    }),
-    signup: vi.fn().mockReturnValue({
-        type: 'SIGNUP',
-        user: {}
-    })
+    signin: vi.fn((user) => Promise.resolve({ user })),
+    signup: vi.fn((user) => Promise.resolve({ user }))
 }));
 
 // Create a test store helper
@@ -106,7 +100,7 @@ const TestWrapper = ({ store, path = '/signin' }) => {
     });
 
     // Mock useDispatch to prevent errors from being cleared prematurely
-    vi.mocked(useDispatch).mockReturnValue(vi.fn());
+    vi.mocked(useDispatch).mockReturnValue(vi.fn(action => typeof action === 'function' ? action(vi.fn()) : action));
 
     return (
         <Provider store={store}>

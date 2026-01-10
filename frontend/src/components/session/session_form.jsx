@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import ErrorIndex from '../shared/error_index';
 import NavLink from './nav_link';
@@ -14,6 +14,7 @@ import {
 
 const SessionForm = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const formType = location.pathname === '/signup' ? 'Sign up' : 'Sign in';
   const action = location.pathname === '/signup' ? signup : signin;
 
@@ -61,7 +62,12 @@ const SessionForm = () => {
     } else {
       user = { email: form.email, password: form.password };
     }
-    processForm(user);
+
+    processForm(user).then(newUser => {
+      if (!('errors' in newUser) && formType == 'Sign up') {
+        navigate('/signin/');
+      }
+    });
   }
   
   function renderButtonText() {
