@@ -19,11 +19,18 @@ vi.mock('../../../../utils/date_util', () => ({
     daysRemainingUntilEnd: vi.fn().mockReturnValue(25)
 }));
 
-vi.mock('../../../../actions/project_actions', () => ({
-    deleteProject: {
-        then: vi.fn()
-    }
-}));
+vi.mock('../../../../actions/project_actions', () => {
+    const deleteProjectMock = vi.fn((projectId) => (dispatch) => {
+        // Simulate an async operation and dispatch success
+        return Promise.resolve({ id: projectId }).then(response => {
+            dispatch({ type: 'RECEIVE_PROJECTS', projects: {} }); // Mock a success action
+            return response;
+        });
+    });
+    return {
+        deleteProject: deleteProjectMock
+    };
+});
 
 // Import the component AFTER mocks
 import ImageStatusSection from '../image_status_section.jsx';
@@ -69,11 +76,7 @@ describe('ImageStatusSection', () => {
         mockNavigate.mockClear();
         daysRemainingUntilEnd.mockReturnValue(25);
         
-        // Reset deleteProject mock
-        deleteProject.then.mockImplementation((callback) => {
-            callback({ id: mockProject.id });
-            return { catch: vi.fn() };
-        });
+
     });
 
     describe('basic rendering for any user', () => {
@@ -191,8 +194,8 @@ describe('ImageStatusSection', () => {
             
             fireEvent.click(screen.getByText('Delete Project'));
             
-            expect(deleteProject.then).toHaveBeenCalledTimes(1);
-            expect(deleteProject.then).toHaveBeenCalledWith(expect.any(Function));
+            expect(deleteProject).toHaveBeenCalledTimes(1);
+            expect(deleteProject).toHaveBeenCalledWith(mockProject.id);
         });
 
         it('renders edit rewards button with correct styling', () => {
