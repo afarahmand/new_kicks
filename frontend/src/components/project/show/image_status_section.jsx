@@ -1,13 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { deleteProject } from '../../../actions/project_actions';
 import { daysRemainingUntilEnd } from '../../../utils/date_util';
 
 const ImageStatusSection = ({ project }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    const currentUser = useSelector((state) => (state.session.currentUser));
+    const currentUser = useSelector(state => state.session.currentUser);
+    const dispatchDeleteProject = () => dispatch(deleteProject(project.id));
 
     function renderEditDeleteButtons() {
         if (currentUser && (currentUser.id === project.user_id)) {
@@ -23,7 +25,8 @@ const ImageStatusSection = ({ project }) => {
                         className="delete-button"
                         onClick={
                             () => {
-                                deleteProject.then(project1 => navigate(`/`))
+                                dispatchDeleteProject();
+                                navigate(`/`);
                             }
                         }
                     >

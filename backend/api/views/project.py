@@ -44,7 +44,7 @@ class ProjectView(APIView):
     def get_permissions(self):
         """
         DELETE and PATCH requires that user is project creator
-        POST (login) allows any logged-in use
+        POST (create) handle in ProjectsView
         """
         if self.request.method == 'GET':
             return [AllowAny()]
@@ -59,15 +59,10 @@ class ProjectView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         
-        try:
-            project.delete()
-            return self._get_complex_json_response(project)
-        except Exception as e:
-            return Response(
-                [str(e)],
-                status=status.HTTP_404_NOT_FOUND
-            )
-    
+        project_data = ProjectSerializer(project).data
+        project.delete()
+        return Response({ 'project': project_data })
+
     def get(self, request, project_id):
         project = get_object_or_404(Project, id=project_id)
         return self._get_complex_json_response(project)
@@ -85,9 +80,9 @@ class ProjectView(APIView):
     
         if serializer.is_valid():
             serializer.save()
-            return self._get_complex_json_response(serializer.data)
+            return self._get_complex_json_response(project)
         
         return Response(
-            serializer.errors,
+            [str(serializer.errors)],
             status=status.HTTP_401_UNAUTHORIZED
         )

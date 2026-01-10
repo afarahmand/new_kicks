@@ -20,9 +20,9 @@ const receiveProject = project => ({
   user: project.user
 });
 
-const removeProject = project => ({
+const removeProject = projectId => ({
   type: REMOVE_PROJECT,
-  projectId: project.project.id
+  projectId: projectId
 });
 
 const receiveProjectErrors = errors => ({
@@ -70,9 +70,9 @@ export const updateProject = project => dispatch => (
   )
 );
 
-export const deleteProject = projectId => dispatch => (
+export const deleteProject = projectId => dispatch => {
   ProjectApiUtil.deleteProject(projectId).then(
-    dbProject => dispatch(removeProject(dbProject.id)),
+    dbProject => dispatch(removeProject(projectId)),
     err => dispatch(receiveProjectErrors(err))
   )
-);
+}
