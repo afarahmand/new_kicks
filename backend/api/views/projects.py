@@ -42,13 +42,19 @@ class ProjectsView(APIView):
         })
 
     def post(self, request):
-        serializer = ProjectSerializer(data=request.data, context={'user_id': request.user.id})
+        serializer = ProjectSerializer(
+            data=request.data['project'],
+            context={'user_id': request.user.id}
+        )
     
         if serializer.is_valid():
             serializer.save() # create() method will handle user_id
-            return self._get_complex_json_response(serializer.data)
+            return Response({
+                'project': serializer.data,
+                'user': UserSerializer(request.user).data
+            })
         
         return Response(
-            serializer.errors,
+            [str(serializer.errors)],
             status=status.HTTP_401_UNAUTHORIZED
         )
