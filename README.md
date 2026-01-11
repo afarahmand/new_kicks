@@ -17,7 +17,8 @@ Docker
 * How to run locally:
 
 1) Populate .env file using .env.example as a reference for the keys that should be included
-2) Run `docker compose up --build`
+2) Run `docker compose up` - to start project
+3) Run `docker exec -it new_kicks_be bundle exec rails db:seed` to seed DB
 
 * How to run the test suite
 
