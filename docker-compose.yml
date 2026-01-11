@@ -3,51 +3,53 @@ services:
     container_name: new_kicks_db
     image: postgres:18-alpine
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   api:
     container_name: new_kicks_be
     build: ./backend
-    command: sh -c "rm -f tmp/pids/server.pid && rails db:create db:migrate && rails server -b 0.0.0.0"
-    volumes:
-      - ./backend:/app
-      - gems:/usr/local/bundle
-    ports:
-      - "3000:3000"
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails server -b 0.0.0.0"
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_started
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_USERNAME: ${DATABASE_USER}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       RAILS_ENV: ${RAILS_ENV}
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./backend:/app
+      - gems:/usr/local/bundle
   
   frontend:
     container_name: new_kicks_fe
     build: ./frontend
+    depends_on:
+      - api
     environment:
       - KICKS_API_BASE_URL=${KICKS_API_BASE_URL}
+    ports:
+      - "5173:5173"
+    stdin_open: true
+    tty: true
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    ports:
-      - "5173:5173"
-    depends_on:
-      - api
-    stdin_open: true
-    tty: true
 
 volumes:
   postgres_data:

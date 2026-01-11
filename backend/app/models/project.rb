@@ -124,6 +124,6 @@ class Project < ApplicationRecord
       ', param, param)
     end
 
-    currQuery
+    return currQuery.limit(9)
   end
 end

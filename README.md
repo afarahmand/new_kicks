@@ -17,20 +17,21 @@ Docker
 * How to run locally:
 
 1) Populate .env file using .env.example as a reference for the keys that should be included
-2) Run `docker compose up --build`
+2) Run `docker compose up` - to start project
+3) Run `docker exec -it new_kicks_be bundle exec rails db:seed` to seed DB
 
 * How to run the test suite
 
 > BACKEND
 
 Run all tests once
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec`
 
 Run only one test file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec/models/project_spec.rb`
 
 Run only one test from file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb:<line_number>`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec/models/project_spec.rb:<line_number>`
 
 > FRONTEND
 

@@ -1,14 +1,6 @@
 class Api::ProjectSearchesController < Api::BaseController
   def index
-    # Navigate whether
-    if (search_params[:query] == "")
-      @projects = Project.all.limit(9)
-    else
-      @projects = Project.search_results(
-        search_params[:query]
-      ).limit(9)
-    end
-
+    @projects = Project.search_results(search_params[:query])
     render "api/project_searches/index"
   end
 

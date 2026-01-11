@@ -277,6 +277,14 @@ RSpec.describe Project, type: :model do
   end
 
   describe "self.search_results" do
+    it "returns a maximum of 9 projects" do
+      user = create(:user)
+      create_list(:project, 20, user_id: user.id)
+
+      expect(Project::search_results("").length).to eq(9)
+      expect(Project::search_results("bad weather").length).to eq(9)
+    end
+
     it "returns all projects if empty query string passed" do
       user = create(:user)
       project1 = create(:project, user_id: user.id, title: "Big Bertha", short_blurb: "Is this blurb short enough?")
