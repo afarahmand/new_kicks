@@ -18,6 +18,8 @@ Docker
 
 1) Populate .env file using .env.example as a reference for the keys that should be included
 2) Run `docker compose up --build`
+3) Run `docker compose up`
+4) Run `docker exec -it new_kicks_be python manage.py seeds` - to seed DB with sample records
 
 * How to run the test suite
 
