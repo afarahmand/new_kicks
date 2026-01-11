@@ -24,13 +24,13 @@ Docker
 > BACKEND
 
 Run all tests once
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec`
 
 Run only one test file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec/models/project_spec.rb`
 
 Run only one test from file
-`docker exec -e RAILS_ENV=test -it <BE Rails API container ID> bundle exec rspec spec/models/project_spec.rb:<line_number>`
+`docker exec -e RAILS_ENV=test -it new_kicks_be bundle exec rspec spec/models/project_spec.rb:<line_number>`
 
 > FRONTEND
 
