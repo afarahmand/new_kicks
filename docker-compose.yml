@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: new_kicks_db
+    container_name: db
     image: postgres:18-alpine
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
@@ -15,8 +15,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  api:
-    container_name: new_kicks_be
+  new_kicks_api:
+    container_name: new_kicks_api
     build: ./backend
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails db:create db:migrate && bundle exec rails server -b 0.0.0.0"
     depends_on:
@@ -36,11 +36,11 @@ services:
       - ./backend:/app
       - gems:/usr/local/bundle
   
-  frontend:
+  new_kicks_fe:
     container_name: new_kicks_fe
     build: ./frontend
     depends_on:
-      - api
+      - new_kicks_api
     environment:
       - KICKS_API_BASE_URL=${KICKS_API_BASE_URL}
     ports:
