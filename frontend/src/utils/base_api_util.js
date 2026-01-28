@@ -1,4 +1,4 @@
-const KICKS_API_BASE_URL = import.meta.env.KICKS_API_BASE_URL || '';
+const BASE_URL_KICKS_API = import.meta.env.BASE_URL_KICKS_API || '';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
@@ -9,7 +9,7 @@ const DEFAULT_OPTIONS = {
 };
 
 export const fetchWrapper = (url, options = {}) => {
-  const fullUrl = `${KICKS_API_BASE_URL}${url}`;
+  const fullUrl = `${BASE_URL_KICKS_API}${url}`;
   
   const config = {
     ...DEFAULT_OPTIONS,

@@ -8,8 +8,8 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     // Define global constants
     define: {
-      'import.meta.env.KICKS_API_BASE_URL': JSON.stringify(
-        process.env.KICKS_API_BASE_URL || env.KICKS_API_BASE_URL
+      'import.meta.env.BASE_URL_KICKS_API': JSON.stringify(
+        process.env.BASE_URL_KICKS_API || env.BASE_URL_KICKS_API
       )
     },
   }
