@@ -94,8 +94,6 @@ production:
   primary: &primary_production
     <<: *default
     database: new_kicks_production
-    username: <%= ENV["DATABASE_USERNAME"] %>
-    password: <%= ENV["DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: new_kicks_production_cache
