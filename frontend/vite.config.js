@@ -13,9 +13,10 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     server: {
+      allowedHosts: true,
       host: '0.0.0.0',
       port: 5173,
-      allowedHosts: ['all'],  // Vite 5+ requires this when proxied
+      strictPort: true,
     },
   }
 })
