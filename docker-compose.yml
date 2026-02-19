@@ -42,6 +42,8 @@ services:
   new_kicks_fe:
     container_name: new_kicks_fe
     build:
+      args:
+        BASE_URL_KICKS_API: ${BASE_URL_KICKS_API}
       context: ./frontend
       target: ${DOCKER_TARGET:-development}
     depends_on:
