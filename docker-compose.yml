@@ -19,12 +19,11 @@ services:
     build:
       context: ./backend
       target: ${DOCKER_TARGET:-development}
-    command: sh -c "rm -f tmp/pids/server.pid &&
-      bundle exec rails db:create db:migrate &&
-      bundle exec rails server -b 0.0.0.0"
+    command: bundle exec rails server -b 0.0.0.0
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:
       DATABASE_HOST: ${POSTGRES_HOST}
       DATABASE_USERNAME: ${POSTGRES_USERNAME}

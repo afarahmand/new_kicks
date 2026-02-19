@@ -34,6 +34,9 @@ RUN bundle install --jobs 4 --retry 3
 
 COPY . .
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 ENV RAILS_ENV=development
 
 EXPOSE 3000
@@ -54,8 +57,12 @@ WORKDIR /app
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY --from=builder /app /app
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 ENV RAILS_ENV=production \
     BUNDLE_WITHOUT=development:test
 
 EXPOSE 3000
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["rails", "server", "-b", "0.0.0.0"]
