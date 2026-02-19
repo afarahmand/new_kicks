@@ -63,6 +63,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 ENV RAILS_ENV=production \
     BUNDLE_WITHOUT=development:test
 
-EXPOSE 3000
+EXPOSE 3002
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3002"]
